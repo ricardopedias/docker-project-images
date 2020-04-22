@@ -55,7 +55,6 @@ RUN apt-get update \
         php7.4-pspell \
         php-raphf \
         php7.4-readline \
-        php7.4-recode \
         php-redis \
         php7.4-soap \
         php7.4-sqlite3 \ 

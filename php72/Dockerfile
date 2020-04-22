@@ -82,7 +82,7 @@ RUN apt-get update \
 STOPSIGNAL SIGQUIT
 
 # Adaptações para funcionar no docker
-COPY overrides.conf /etc/php/7.2/fpm/pool.d/z-overrides.conf
+ADD https://raw.githubusercontent.com/ricardopedias/php-project-images/master/php72/overrides.conf /etc/php/7.2/fpm/pool.d/z-overrides.conf
 
 CMD ["/usr/sbin/php-fpm7.2", "-O" ]
 

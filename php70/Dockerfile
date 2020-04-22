@@ -72,12 +72,13 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
 
-# File permissions workaround
 RUN usermod -u 1000 www-data
 
-# PHP-FPM has really dirty logs, certainly not good for dockerising
-# The following startup script contains some magic to clean these up
-COPY php-boot.sh /usr/bin/php-fpm
+# Adaptações para funcionar no docker
+# O script de inicialização ajusta a emissão de logs de forma mais limpa
+# removendo os logs estranhos
+ADD https://raw.githubusercontent.com/ricardopedias/php-project-images/master/php70/php-boot.sh /usr/bin/php-fpm
+ADD https://raw.githubusercontent.com/ricardopedias/php-project-images/master/php70/overrides.conf /etc/php/7.0/fpm/pool.d/z-overrides.conf
 
 CMD /usr/bin/php-fpm
 

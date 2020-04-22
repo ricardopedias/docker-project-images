@@ -81,18 +81,11 @@ RUN apt-get update \
 
 STOPSIGNAL SIGQUIT
 
-# PHP-FPM packages need a nudge to make them docker-friendly
-COPY overrides.conf /etc/php/7.1/fpm/pool.d/z-overrides.conf
+# Adaptações para funcionar no docker
+ADD https://raw.githubusercontent.com/ricardopedias/php-project-images/master/php71/overrides.conf /etc/php/7.1/fpm/pool.d/z-overrides.conf
 
 CMD ["/usr/sbin/php-fpm7.1", "-O" ]
 
-# Open up fcgi port
 EXPOSE 9000
-
-# - ./:/app
-# - ./.docker-project/php.ini:/usr/local/etc/php/conf.d/local.ini
-# - ./.docker-project/bashrc:/root/.bashrc
-# - ./.docker-project/boot.sh:/root/boot.sh
-# - ~/.bash_history:/root/.bash_history
 
 

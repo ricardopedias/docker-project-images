@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------
-# PhpProject - PHP 7.4
+# PhpProject - PHP 7.1
 #-------------------------------------------------------------------------------------
 
 FROM ubuntu:bionic
@@ -24,53 +24,53 @@ RUN apt-get update \
         unzip \
         php-apcu \
         php-apcu-bc \
-        php7.4-cli \
-	    php7.4-fpm \
-	    php7.4-bcmath \
-        php7.4-bz2 \
-        php7.4-calendar \
-        php7.4-curl \
-        php7.4-dba \
-        php7.4-enchant \
-        php7.4-exif \
-        php7.4-gd \
+        php7.1-cli \
+	    php7.1-fpm \
+	    php7.1-bcmath \
+        php7.1-bz2 \
+        php7.1-calendar \
+        php7.1-curl \
+        php7.1-dba \
+        php7.1-enchant \
+        php7.1-exif \
+        php7.1-gd \
         php-gearman \
         php-igbinary \
         php-imagick \
-        php7.4-imap \
-        php7.4-interbase \
-        php7.4-intl \
-        php7.4-gmp \
-        php7.4-json \
-        php7.4-ldap \
-        php7.4-mbstring \
+        php7.1-imap \
+        php7.1-interbase \
+        php7.1-intl \
+        php7.1-gmp \
+        php7.1-json \
+        php7.1-ldap \
+        php7.1-mbstring \
         php-memcached \
-        php7.4-mysql \
+        php7.1-mysql \
         php-mongodb \
         php-msgpack \
-        php7.4-odbc \
-        php7.4-opcache \
-        php7.4-pgsql \
-        php7.4-phpdbg \
-        php7.4-pspell \
+        php7.1-odbc \
+        php7.1-opcache \
+        php7.1-pgsql \
+        php7.1-phpdbg \
+        php7.1-pspell \
         php-raphf \
-        php7.4-readline \
-        php7.4-recode \
+        php7.1-readline \
+        php7.1-recode \
         php-redis \
-        php7.4-soap \
-        php7.4-sqlite3 \ 
+        php7.1-soap \
+        php7.1-sqlite3 \ 
         php-ssh2 \
-        php7.4-sybase \
+        php7.1-sybase \
         php-tideways \
-        php7.4-tidy \
+        php7.1-tidy \
         php-xdebug \
-        php7.4-xml \
-        php7.4-xmlrpc \
-        php7.4-xsl \
+        php7.1-xml \
+        php7.1-xmlrpc \
+        php7.1-xsl \
         php-yaml \
         php-zmq \
-        php7.4-zip \
-        php7.4-mysql \
+        php7.1-zip \
+        php7.1-mysql \
         git \
         vim \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -81,9 +81,18 @@ RUN apt-get update \
 
 STOPSIGNAL SIGQUIT
 
-# Adaptações para funcionar no docker
-COPY overrides.conf /etc/php/7.4/fpm/pool.d/z-overrides.conf
+# PHP-FPM packages need a nudge to make them docker-friendly
+COPY overrides.conf /etc/php/7.1/fpm/pool.d/z-overrides.conf
 
-CMD ["/usr/sbin/php-fpm7.4", "-O" ]
+CMD ["/usr/sbin/php-fpm7.1", "-O" ]
 
+# Open up fcgi port
 EXPOSE 9000
+
+# - ./:/app
+# - ./.docker-project/php.ini:/usr/local/etc/php/conf.d/local.ini
+# - ./.docker-project/bashrc:/root/.bashrc
+# - ./.docker-project/boot.sh:/root/boot.sh
+# - ~/.bash_history:/root/.bash_history
+
+

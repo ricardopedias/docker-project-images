@@ -14,14 +14,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Configuração dos repositórios do Ondrej para Ubuntu Bionic, 
 # instalação do PHP e ferramentas úteis
 
-RUN cd /app \
-    && composer create-project --prefer-dist laravel/laravel . \
-    && php artisan key:generate \
-    && chmod -Rf 777 bootstrap/cache \
-    && chmod -Rf 777 storage \
-    && composer require laravel/passport \
-    && php artisan passport:install \
-    && php artisan passport:keys;
+RUN mkdir -p /app
+RUN chmod 750 /app
+RUN chown www-data:www-data /app
+RUN composer create-project --prefer-dist laravel/laravel /app
+RUN cd /app && php artisan key:generate
+RUN cd /app && chmod -Rf 777 bootstrap/cache
+RUN cd /app && chmod -Rf 777 storage
+RUN cd /app && composer require laravel/passport
+RUN cd /app && php artisan passport:install
+RUN cd /app && php artisan passport:keys
 
 STOPSIGNAL SIGQUIT
 

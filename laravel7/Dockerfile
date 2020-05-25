@@ -21,9 +21,6 @@ RUN composer create-project --prefer-dist laravel/laravel /app
 RUN cd /app && php artisan key:generate
 RUN cd /app && chmod -Rf 777 bootstrap/cache
 RUN cd /app && chmod -Rf 777 storage
-RUN cd /app && composer require laravel/passport
-RUN cd /app && php artisan passport:install
-RUN cd /app && php artisan passport:keys
 
 STOPSIGNAL SIGQUIT
 

@@ -1,0 +1,69 @@
+version: "3.1"
+services:
+  webserver:
+    image: local/php-project:nginx119
+    container_name: project-nginx
+    volumes:
+      - ./project:/application
+    ports:
+      - "1000:80"
+    networks:
+      - dev-network
+
+  php-fpm:
+    image: local/php-project:php80
+    container_name: project-php80
+    user: "${UID}:${GID}"
+    volumes:
+      - ./project:/application
+    networks:
+      - dev-network
+
+  php-composer:
+    image: local/php-project:composer20
+    container_name: project-composer
+    user: "${UID}:${GID}"
+    volumes:
+      - ./project:/application
+    command: composer install --ignore-platform-reqs
+    networks:
+      - dev-network
+
+  relational-db:
+    image: local/php-project:mysql80
+    container_name: project-db
+    restart: always
+    ports:
+      - "1010:3306"
+    networks:
+      - dev-network
+
+  relational-db-admin:
+    image: local/php-project:phpmyadmin51
+    container_name: project-db-admin
+    restart: always
+    depends_on: 
+      - relational-db
+    ports:
+      - 1020:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=relational-db
+    networks:
+      - dev-network
+
+  rabbitmq:
+    image: local/php-project:rabbitmq38
+    container_name: project-messaging
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    
+networks:
+  dev-network:
+    driver: bridge

@@ -23,20 +23,25 @@ docker network create --driver bridge $DEV_NETWORK || true
 docker container rm ${1} --force
 
 # gera a nova imagem
-docker build -t local/php-project:${1} - < ./${1}/Dockerfile
+cd ${1}
+docker build . -t local/php-project:${1} -f Dockerfile
+cd ..
 
-docker run -d -it --name="${1}" \
-    --network $DEV_NETWORK \
-    --volume $(pwd)/project:/application \
-    local/php-project:php80
+# docker run -d -it --name="${1}" \
+#     --network $DEV_NETWORK \
+#     --volume $(pwd)/project:/application \
+#     -p 8080:80 \
+#     local/php-project:${1}
 
 # --mount type=bind,source="$(pwd)/docker-php.ini",target="/etc/php/7.4/fpm/conf.d/docker-php.ini"
 
+echo -e "\033[1;32m Operação concluída!\033[0m"
+
 docker container ls
 
-echo -e "\033[1;32mImagem gerada com sucesso!\033[0m"
+docker-compose up -d
 
-docker exec -it php80 bash
+#docker exec -it ${1} bash
 
 exit 0
 

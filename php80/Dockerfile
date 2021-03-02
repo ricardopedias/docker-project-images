@@ -15,6 +15,9 @@ ENV TERM=linux
 # Para o apt não fazer perguntas ao instalar pacotes
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Para identificar o uso do docker dentro da aplicação PHP
+ENV RUNNING_DOCKER=1
+
 # Configuração dos repositórios do Ondrej para Ubuntu 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gnupg \
@@ -101,8 +104,6 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
 
 ADD https://raw.githubusercontent.com/ricardopedias/php-project-images/master/php80/overrides.conf /etc/php/8.0/fpm/pool.d/z-overrides.conf
 ADD https://raw.githubusercontent.com/ricardopedias/php-project-images/master/php80/php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
-
-ENV RUNNING_DOCKER=1
 
 WORKDIR /application
 

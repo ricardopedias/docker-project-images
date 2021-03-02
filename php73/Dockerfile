@@ -72,7 +72,6 @@ RUN apt-get update \
         php7.3-zip \
         php7.3-mysql \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && composer global require hirak/prestissimo \
     && composer clear-cache \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer

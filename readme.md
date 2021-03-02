@@ -12,3 +12,4 @@ desenvolvimento.
 ## Informações importantes
 
 [Automated Builds](docs/automated-builds.md)
+[Ferramentas e Portas](docs/tools-and-ports.md)

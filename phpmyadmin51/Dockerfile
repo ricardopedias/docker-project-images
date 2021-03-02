@@ -5,6 +5,8 @@
 
 FROM phpmyadmin:5.1-apache
 
+ENV PMA_ARBITRARY 1
+ENV PMA_HOST mysql
 ENV PMA_USER devel
 ENV PMA_PASSWORD devel
 

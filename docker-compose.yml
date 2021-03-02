@@ -1,6 +1,6 @@
 version: "3.1"
 services:
-  webserver:
+  nginx:
     image: local/php-project:nginx119
     container_name: project-nginx
     volumes:
@@ -12,52 +12,47 @@ services:
 
   php-fpm:
     image: local/php-project:php80
-    container_name: project-php80
-    user: "${UID}:${GID}"
+    container_name: project-php
     volumes:
       - ./project:/application
     networks:
       - dev-network
 
-  php-composer:
+  composer:
     image: local/php-project:composer20
     container_name: project-composer
-    user: "${UID}:${GID}"
     volumes:
       - ./project:/application
     command: composer install --ignore-platform-reqs
     networks:
       - dev-network
 
-  relational-db:
+  mysql:
     image: local/php-project:mysql80
-    container_name: project-db
+    container_name: project-mysql
     restart: always
     ports:
       - "1010:3306"
     networks:
       - dev-network
 
-  relational-db-admin:
+  phpmyadmin:
     image: local/php-project:phpmyadmin51
-    container_name: project-db-admin
+    container_name: project-phpmyadmin
     restart: always
     depends_on: 
-      - relational-db
+      - mysql
     ports:
       - 1020:80
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=relational-db
     networks:
       - dev-network
 
   rabbitmq:
     image: local/php-project:rabbitmq38
-    container_name: project-messaging
+    container_name: project-rabbitmq
     ports:
-      - "15672:15672"
-      - "5672:5672"
+      - 1030:5672
+      - 1040:15672
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:15672"]
       interval: 30s

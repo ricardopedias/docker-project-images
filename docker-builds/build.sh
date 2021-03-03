@@ -23,9 +23,9 @@ docker network create --driver bridge $DEV_NETWORK || true
 docker container rm ${1} --force
 
 # gera a nova imagem
-cd ${1}
-docker build . -t local/php-project:${1} -f Dockerfile
-cd ..
+cd ../${1}
+docker build . -t local/docker-project:${1} -f Dockerfile
+cd ../docker-builds
 
 # docker run -d -it --name="${1}" \
 #     --network $DEV_NETWORK \
@@ -40,14 +40,3 @@ echo -e "\033[1;32m Operação concluída!\033[0m"
 docker container ls
 
 docker-compose up -d
-
-#docker exec -it ${1} bash
-
-exit 0
-
-
-# echo -e "------------------------------------------------";
-# echo -e "[0;32m✔[0m Escutando logs";
-# # docker exec -it "app-$PROJECT_NAME" bash
-# docker logs "app-$PROJECT_NAME"
-# docker logs "server-$PROJECT_NAME" -f

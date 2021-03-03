@@ -1,19 +1,14 @@
-# PHP Project Images
+# Docker Project Images
 
 Tratam-se de imagens contendo instalações pré-configuradas e exclusivas para desenvolvimento de 
-aplicações PHP. 
-
-A idéia é facilitar a configuração de ambientes, usando apenas um arquivo docker-compose.yml.
+aplicações.  A idéia é facilitar a configuração de ambientes, usando apenas um arquivo 
+*docker-compose.yml* e nada mais.
 
 > Atenção: As imagens não foram criadas para utilização em ambientes de produção! São imagens grandes,
 contendo ferramentas e extensões que podem ser desnecessárias para outro fim que não seja o uso para
 desenvolvimento. 
 
-## Informações importantes
-
-- [Automated Builds](docs/automated-builds.md)
-
-## Base
+## Linguagens
 
 - PHP 5.6
 - PHP 7.0
@@ -39,3 +34,8 @@ desenvolvimento.
 
 - [RabbitMQ 3.8](docs/tools-rabbitmq.md)
 - [Kafka 2.7](docs/tools-kafka.md)
+
+## Outras informações
+
+- [Portas no Docker Compose](docs/docker-compose-ports.md)
+- [Docker Hub Automated Builds](docs/automated-builds.md)

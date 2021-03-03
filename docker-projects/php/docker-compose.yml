@@ -1,0 +1,105 @@
+version: "3.1"
+services:
+  nginx:
+    image: ricardopedias/docker-project:nginx119
+    container_name: project-nginx
+    volumes:
+      - .:/application
+    ports:
+      - "1000:80"
+    networks:
+      - dev-network
+
+  php-fpm:
+    image: ricardopedias/docker--project:php80
+    container_name: project-php
+    volumes:
+      - .:/application
+    networks:
+      - dev-network
+
+  composer:
+    image: ricardopedias/docker-project:composer20
+    container_name: project-composer
+    volumes:
+      - .:/application
+    command: composer install --ignore-platform-reqs
+    networks:
+      - dev-network
+
+  mysql:
+    image: ricardopedias/docker-project:mysql80
+    container_name: project-mysql
+    restart: always
+    volumes:
+      - ./storage/mysql:/var/lib/mysql
+    ports:
+      - "1010:3306"
+    networks:
+      - dev-network
+
+  phpmyadmin:
+    image: ricardopedias/docker-project:phpmyadmin51
+    container_name: project-phpmyadmin
+    restart: always
+    depends_on: 
+      - mysql
+    ports:
+      - 1020:80
+    networks:
+      - dev-network
+
+  rabbitmq:
+    image: ricardopedias/docker-project:rabbitmq38
+    container_name: project-rabbitmq
+    volumes:
+      - ./storage/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 1030:5672
+      - 1040:15672
+    networks:
+      - dev-network
+
+  riak-kv:
+    image: ricardopedias/docker-project:riakkv223
+    container_name: project-riakkv
+    volumes:
+      - ./storage/riakkv:/etc/riak/schemas
+    ports:
+      - "1050:8087"
+      - "1060:8098"
+    networks:
+      - dev-network
+
+  zookeeper:
+    image: ricardopedias/docker-project:zookeeper35
+    container_name: project-zookeeper
+    ports:
+      - 1070:2181
+      - 1080:2000
+    networks:
+      - dev-network
+
+  kafka:
+    image: ricardopedias/docker-project:kafka27
+    container_name: project-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 1090:9092
+    networks:
+      - dev-network
+
+  kafdrop:
+    image: ricardopedias/docker-project:kafdrop327
+    container_name: project-kafdrop
+    depends_on:
+      - kafka
+    ports:
+      - 2000:9000
+    networks:
+      - dev-network
+    
+networks:
+  dev-network:
+    driver: bridge

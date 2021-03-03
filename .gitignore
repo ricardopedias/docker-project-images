@@ -1,0 +1,3 @@
+/docker-projects/php/vendor
+/docker-projects/php/storage/*
+!/**/.gitkeep

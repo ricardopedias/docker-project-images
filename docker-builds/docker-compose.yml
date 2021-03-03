@@ -2,7 +2,7 @@ version: "3.1"
 services:
   nginx:
     image: local/php-project:nginx119
-    container_name: project-nginx
+    container_name: test-project-nginx
     volumes:
       - ./project:/application
     ports:
@@ -12,7 +12,7 @@ services:
 
   php-fpm:
     image: local/php-project:php80
-    container_name: project-php
+    container_name: test-project-php
     volumes:
       - ./project:/application
     networks:
@@ -20,7 +20,7 @@ services:
 
   composer:
     image: local/php-project:composer20
-    container_name: project-composer
+    container_name: test-project-composer
     volumes:
       - ./project:/application
     command: composer install --ignore-platform-reqs
@@ -29,7 +29,7 @@ services:
 
   mysql:
     image: local/php-project:mysql80
-    container_name: project-mysql
+    container_name: test-project-mysql
     restart: always
     ports:
       - "1010:3306"
@@ -38,7 +38,7 @@ services:
 
   phpmyadmin:
     image: local/php-project:phpmyadmin51
-    container_name: project-phpmyadmin
+    container_name: test-project-phpmyadmin
     restart: always
     depends_on: 
       - mysql
@@ -49,7 +49,7 @@ services:
 
   rabbitmq:
     image: local/php-project:rabbitmq38
-    container_name: project-rabbitmq
+    container_name: test-project-rabbitmq
     ports:
       - 1030:5672
       - 1040:15672
@@ -58,7 +58,7 @@ services:
 
   riak-kv:
     image: local/php-project:riakkv223
-    container_name: project-riakkv
+    container_name: test-project-riakkv
     ports:
       - "1050:8087"
       - "1060:8098"
@@ -67,7 +67,7 @@ services:
 
   zookeeper:
     image: local/php-project:zookeeper35
-    container_name: project-zookeeper
+    container_name: test-project-zookeeper
     ports:
       - 1070:2181
       - 1080:2000
@@ -76,7 +76,7 @@ services:
 
   kafka:
     image: local/php-project:kafka27
-    container_name: project-kafka
+    container_name: test-project-kafka
     depends_on:
       - zookeeper
     ports:
@@ -86,7 +86,7 @@ services:
 
   kafdrop:
     image: local/php-project:kafdrop327
-    container_name: project-kafdrop
+    container_name: test-project-kafdrop
     depends_on:
       - kafka
     ports:

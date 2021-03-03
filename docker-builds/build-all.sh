@@ -30,6 +30,7 @@ docker container rm project-riakkv --force
 docker container rm project-zookeeper --force
 docker container rm project-kafka --force
 docker container rm project-kafdrop --force
+docker container rm project-postgres --force
 
 echo ""
 echo "-----------------------------------------------------------------"
@@ -48,6 +49,7 @@ cd ../riakkv22; docker build . -t local/docker-project:riakkv22 -f Dockerfile; c
 cd ../zookeeper35; docker build . -t local/docker-project:zookeeper35 -f Dockerfile; cd ../docker-builds
 cd ../kafka27; docker build . -t local/docker-project:kafka27 -f Dockerfile; cd ../docker-builds
 cd ../kafdrop327; docker build . -t local/docker-project:kafdrop327 -f Dockerfile; cd ../docker-builds
+cd ../postgres13; docker build . -t local/docker-project:postgres13 -f Dockerfile; cd ../docker-builds
 
 echo ""
 echo "-----------------------------------------------------------------"

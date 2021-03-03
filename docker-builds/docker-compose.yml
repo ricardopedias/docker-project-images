@@ -1,25 +1,25 @@
 version: "3.1"
 services:
   nginx:
-    image: local/php-project:nginx119
+    image: local/docker-project:nginx119
     container_name: test-project-nginx
     volumes:
-      - ./project:/application
+      - .:/application
     ports:
       - "1000:80"
     networks:
       - dev-network
 
   php-fpm:
-    image: local/php-project:php80
+    image: local/docker-project:php80
     container_name: test-project-php
     volumes:
-      - ./project:/application
+      - .:/application
     networks:
       - dev-network
 
   composer:
-    image: local/php-project:composer20
+    image: local/docker-project:composer20
     container_name: test-project-composer
     volumes:
       - ./project:/application
@@ -28,7 +28,7 @@ services:
       - dev-network
 
   mysql:
-    image: local/php-project:mysql80
+    image: local/docker-project:mysql80
     container_name: test-project-mysql
     restart: always
     ports:
@@ -37,7 +37,7 @@ services:
       - dev-network
 
   phpmyadmin:
-    image: local/php-project:phpmyadmin51
+    image: local/docker-project:phpmyadmin51
     container_name: test-project-phpmyadmin
     restart: always
     depends_on: 
@@ -48,7 +48,7 @@ services:
       - dev-network
 
   rabbitmq:
-    image: local/php-project:rabbitmq38
+    image: local/docker-project:rabbitmq38
     container_name: test-project-rabbitmq
     ports:
       - 1030:5672
@@ -57,7 +57,7 @@ services:
       - dev-network
 
   riak-kv:
-    image: local/php-project:riakkv223
+    image: local/docker-project:riakkv22
     container_name: test-project-riakkv
     ports:
       - "1050:8087"
@@ -66,7 +66,7 @@ services:
       - dev-network
 
   zookeeper:
-    image: local/php-project:zookeeper35
+    image: local/docker-project:zookeeper35
     container_name: test-project-zookeeper
     ports:
       - 1070:2181
@@ -75,7 +75,7 @@ services:
       - dev-network
 
   kafka:
-    image: local/php-project:kafka27
+    image: local/docker-project:kafka27
     container_name: test-project-kafka
     depends_on:
       - zookeeper
@@ -85,12 +85,21 @@ services:
       - dev-network
 
   kafdrop:
-    image: local/php-project:kafdrop327
+    image: local/docker-project:kafdrop327
     container_name: test-project-kafdrop
     depends_on:
       - kafka
     ports:
-      - 2000:9000
+      - 1100:9000
+    networks:
+      - dev-network
+
+  postgres:
+    image: local/docker-project:postgres13
+    container_name: test-project-postgres
+    restart: always
+    ports:
+      - "1110:8080"
     networks:
       - dev-network
     

@@ -11,5 +11,31 @@ desenvolvimento.
 
 ## Informações importantes
 
-[Automated Builds](docs/automated-builds.md)
-[Ferramentas e Portas](docs/tools-and-ports.md)
+- [Automated Builds](docs/automated-builds.md)
+
+## Base
+
+- PHP 5.6
+- PHP 7.0
+- PHP 7.1
+- PHP 7.2
+- PHP 7.3
+- PHP 7.4
+- PHP 8.0
+
+## Servidores
+
+- Nginx 1.19
+
+## Bancos de Dados SQL
+
+- MySQL 8.0
+- PostGres 8.0
+
+## Bancos de Dados NoSQL
+
+- [Riak KV 2.2](docs/tools-riakkv.md)
+## Mensageria
+
+- [RabbitMQ 3.8](docs/tools-rabbitmq.md)
+- [Kafka 2.7](docs/tools-kafka.md)

@@ -25,7 +25,7 @@ desenvolvimento.
 ## Bancos de Dados SQL
 
 - MySQL 8.0
-- PostGres 8.0
+- Postgres 13.2
 
 ## Bancos de Dados NoSQL
 

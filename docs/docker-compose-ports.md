@@ -21,7 +21,8 @@ As portas originais foram mapeadas da sehuinte forma:
 |  zookeeper      | 2181           | 1070          |
 |  zookeeper      | 2000           | 1080          |
 |  kafka          | 9092           | 1090          |
-|  kafdrop        | 9000           | 2000          |
+|  kafdrop        | 9000           | 1100          |
+|  postgres       | 8080           | 1110          |
 
 
 

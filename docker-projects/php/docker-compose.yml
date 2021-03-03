@@ -72,7 +72,7 @@ services:
       - dev-network
 
   zookeeper:
-    image: ricardopedias/docker-project:zookeeper35
+    image: ricardopedias/docker-project-images:zookeeper35
     container_name: project-zookeeper
     ports:
       - 1070:2181
@@ -96,7 +96,18 @@ services:
     depends_on:
       - kafka
     ports:
-      - 2000:9000
+      - 1100:9000
+    networks:
+      - dev-network
+
+  postgres:
+    image: ricardopedias/docker-project:postgres13
+    container_name: project-postgres
+    restart: always
+    volumes:
+      - ./storage/postgres:/var/lib/postgresql/data
+    ports:
+      - "1110:8080"
     networks:
       - dev-network
     

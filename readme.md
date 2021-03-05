@@ -4,6 +4,8 @@ Tratam-se de imagens contendo instalações pré-configuradas e exclusivas para 
 aplicações.  A idéia é facilitar a configuração de ambientes, usando apenas um arquivo 
 *docker-compose.yml* e nada mais.
 
+[DockerHUB](https://hub.docker.com/r/ricardopedias/docker-project)
+
 As imagens **não foram criadas para utilização em ambientes de produção!** São imagens grandes,
 contendo ferramentas e extensões que podem ser desnecessárias para outro fim que não seja o uso para
 desenvolvimento. 

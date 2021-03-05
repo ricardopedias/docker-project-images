@@ -48,6 +48,29 @@ dimensionamento de imagens ou conversão de PDF.
 - Flexible routing to queues
 - Multiple exchange type.
 
+## Docker Compose
+
+Um exemplo de configuração via Docker Compose:
+
+```
+version: "3.1"
+services:
+  rabbitmq:
+    image: ricardopedias/docker-project:rabbitmq38
+    container_name: project-rabbitmq
+    volumes:
+      - ./storage/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 1030:5672
+      - 1040:15672
+    networks:
+      - dev-network
+      
+networks:
+  dev-network:
+    driver: bridge
+```
+
 ## Acesso aos recursos
 
 As portas originais foram mapeadas através do docker-compose.yml, como seguem demonstradas na tabela:

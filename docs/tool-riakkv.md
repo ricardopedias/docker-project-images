@@ -51,6 +51,28 @@ As portas originais foram mapeadas através do docker-compose.yml, como seguem d
 |  Admin          | 8098           | 1060          | http://localhost:1060/admin |
 |  API            | 8098           | 1060          | http://localhost:1060       |
 
+## Docker Compose
+
+Um exemplo de configuração via Docker Compose:
+
+```
+version: "3.1"
+services:
+  riak-kv:
+    image: ricardopedias/docker-project:riakkv223
+    container_name: project-riakkv
+    volumes:
+      - ./storage/riakkv:/etc/riak/schemas
+    ports:
+      - "1050:8087"
+      - "1060:8098"
+    networks:
+      - dev-network
+      
+networks:
+  dev-network:
+    driver: bridge
+```
 
 ## Bibliotecas e SDKs para PHP
 

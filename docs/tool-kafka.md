@@ -51,6 +51,47 @@ Outro exemplo é a análise de dados para rastreamento, ingestão, registro ou s
 - Processamento em tempo real ou retrospectivamente
 - O protocolo Apache Kafka suporta tópicos de quase qualquer escala
 
+## Docker Compose
+
+Um exemplo de configuração via Docker Compose:
+
+```
+version: "3.1"
+services:
+  zookeeper:
+    image: ricardopedias/docker-project-images:zookeeper35
+    container_name: project-zookeeper
+    ports:
+      - 1070:2181
+      - 1080:2000
+    networks:
+      - dev-network
+
+  kafka:
+    image: ricardopedias/docker-project:kafka27
+    container_name: project-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 1090:9092
+    networks:
+      - dev-network
+
+  kafdrop:
+    image: ricardopedias/docker-project:kafdrop327
+    container_name: project-kafdrop
+    depends_on:
+      - kafka
+    ports:
+      - 1100:9000
+    networks:
+      - dev-network
+      
+networks:
+  dev-network:
+    driver: bridge
+```
+
 ## Acesso aos recursos
 
 O ambiente Kafka é disponibilizado por 3 imagens:
@@ -87,7 +128,7 @@ Os links abaixo foram usados para obter as informações necessárias para gerar
 ### Sobre Mensageria
 
 - [O que é um Message Broker?](https://medium.com/@bookgrahms/o-que-%C3%A9-um-corretor-de-mensagens-message-broker-c9fbe219443b)
-- [Disertação sobre o uso de Mensageria](https://www.ime.usp.br/~reverbel/students/master_theses/thadeu_de_russo_e_carmo.pdf)
+- [Dissertação sobre o uso de Mensageria](https://www.ime.usp.br/~reverbel/students/master_theses/thadeu_de_russo_e_carmo.pdf)
 
 ### Sobre o Apache Kafka
 

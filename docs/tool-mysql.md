@@ -34,10 +34,10 @@ services:
 
 Para acessar o banco de dados ou o PhpMyAdmin, use as seguintes informações:
 
-Usuário: root
-Senha: devel
+- Usuário: root
+- Senha: devel
 
 ou
 
-Usuário: devel
-Senha: devel
+- Usuário: devel
+- Senha: devel

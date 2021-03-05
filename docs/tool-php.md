@@ -9,6 +9,8 @@ As seguintes versões da linguagem estão presentes:
 - PHP 7.4 ricardopedias/docker-project:php74
 - PHP 8.0 ricardopedias/docker-project:php80
 
+## Docker Compose
+
 Um exemplo de configuração via Docker Compose:
 
 ```
@@ -23,4 +25,8 @@ services:
       - "8080:80"
     networks:
       - my-network
+      
+networks:
+  dev-network:
+    driver: bridge
 ```

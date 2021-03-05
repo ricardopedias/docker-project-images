@@ -73,7 +73,11 @@ As portas originais foram mapeadas através do docker-compose.yml, como seguem d
 
 ## Bibliotecas e SDKs para PHP
 
-Pesquisando ainda...
+- [Weiboad Kafka PHP](https://github.com/weiboad/kafka-php)
+- [PHP Kafka Consumer](https://github.com/arquivei/php-kafka-consumer)
+- [PHP Kafka Client](https://github.com/arnaud-lb/php-rdkafka)
+- [Quipo Kafka PHP](https://github.com/quipo/kafka-php)
+- [Rdkafka](https://github.com/php-enqueue/rdkafka)
 
 
 ## Links importantes

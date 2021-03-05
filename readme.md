@@ -14,14 +14,15 @@ Use por sua conta e risco!
 
 ## Linguagens
 
-- [PHP](docs/tool-php.md)
+- [PHP 5.6](docs/tool-php.md)
+- [PHP 7.4](docs/tool-php.md)
+- [PHP 8.0](docs/tool-php.md)
 
 ## Bancos de Dados SQL
 
 - [MySQL 5.7](docs/tool-mysql.md)
 - [MySQL 8.0](docs/tool-mysql.md)
 - [Mariadb 10.5](docs/tool-mysql.md)
-- Percona 8.0
 - Postgres 13.2
 
 ## Bancos de Dados NoSQL

@@ -11,7 +11,7 @@ As seguintes versões da linguagem estão presentes:
 
 Um exemplo de configuração via Docker Compose:
 
-bash```
+```
 version: "3.1"
 services:
   php:

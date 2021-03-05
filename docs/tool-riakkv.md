@@ -54,7 +54,7 @@ As portas originais foram mapeadas através do docker-compose.yml, como seguem d
 
 ## Bibliotecas e SDKs para PHP
 
-- [php-amqplib](https://github.com/php-amqplib/php-amqplib) a pure PHP, fully featured RabbitMQ client
+- [Riak PHP Client](https://github.com/basho/riak-php-client)
 
 ## Links importantes
 

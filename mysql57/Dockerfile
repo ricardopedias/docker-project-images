@@ -1,10 +1,10 @@
 #-------------------------------------------------------------------------------------
-# PhpProject - Mysql 8.0
+# PhpProject - Mysql 5.7
 # Imagem oficial (Docker Hub): https://hub.docker.com/_/mysql
 # Imagem oficial (Git Hub): https://github.com/docker-library/mysql
 #-------------------------------------------------------------------------------------
 
-FROM mysql:8.0
+FROM mysql:5.7
 
 # Corrige alguns problemas estranhos do terminal, 
 # como problemas como 'clear' ou CTRL+L
@@ -38,7 +38,6 @@ ADD overrides.conf /etc/php/7.3/fpm/pool.d/z-overrides.conf
 ADD php-ini-overrides.ini /etc/php/7.3/fpm/conf.d/99-overrides.ini
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY config.inc.php /etc/phpmyadmin/config.inc.php
-ADD my.cnf /etc/mysql/my.cnf
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh

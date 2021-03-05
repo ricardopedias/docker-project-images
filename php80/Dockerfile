@@ -18,6 +18,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Para identificar o uso do docker dentro da aplicação PHP
 ENV RUNNING_DOCKER=1
 
+# Diretório principal da imagem
+WORKDIR /application
+
 # Configuração dos repositórios do Ondrej para Ubuntu 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gnupg \
@@ -25,13 +28,14 @@ RUN apt-get update \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && apt-get update
 
-# Dependências de sistema
+# Dependências e ferramentas de sistema
 RUN apt-get -y --no-install-recommends install \
     ca-certificates \
     unzip \
-    curl
+    curl \
+    vim
 
-# PHP e estensões padrões
+# PHP e extensões padrões
 RUN apt-get -y --no-install-recommends install \
     php8.0-cli \
     php8.0-fpm \
@@ -89,10 +93,8 @@ RUN apt-get -y --no-install-recommends install \
     php-yaml \
     php-zmq
 
-# Ferramentas adicionais
-RUN apt-get -y --no-install-recommends install \
-    git \
-    vim
+# Nginx
+RUN apt-get -y install nginx;
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -102,13 +104,15 @@ RUN composer clear-cache
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
 
-ADD https://raw.githubusercontent.com/ricardopedias/php-project-images/master/php80/overrides.conf /etc/php/8.0/fpm/pool.d/z-overrides.conf
-ADD https://raw.githubusercontent.com/ricardopedias/php-project-images/master/php80/php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
+ADD overrides.conf /etc/php/8.0/fpm/pool.d/z-overrides.conf
+ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-WORKDIR /application
+ADD boot.sh /boot.sh
+RUN chmod 755 /boot.sh
 
 STOPSIGNAL SIGQUIT
 
-CMD ["/usr/sbin/php-fpm8.0", "-O" ]
+CMD /boot.sh
 
-EXPOSE 9000
+EXPOSE 80

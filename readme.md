@@ -4,38 +4,34 @@ Tratam-se de imagens contendo instalações pré-configuradas e exclusivas para 
 aplicações.  A idéia é facilitar a configuração de ambientes, usando apenas um arquivo 
 *docker-compose.yml* e nada mais.
 
-> Atenção: As imagens não foram criadas para utilização em ambientes de produção! São imagens grandes,
+As imagens **não foram criadas para utilização em ambientes de produção!** São imagens grandes,
 contendo ferramentas e extensões que podem ser desnecessárias para outro fim que não seja o uso para
 desenvolvimento. 
 
+> **IMPORTANTE**: este repositório está em desenvolvimento e vários ajustes estão sendo feitos ainda.
+Use por sua conta e risco!
+
+
 ## Linguagens
 
-- PHP 5.6
-- PHP 7.0
-- PHP 7.1
-- PHP 7.2
-- PHP 7.3
-- PHP 7.4
-- PHP 8.0
-
-## Servidores
-
-- Nginx 1.19
+- [PHP](docs/tool-php.md)
 
 ## Bancos de Dados SQL
 
-- MySQL 8.0
+- [MySQL 5.7](docs/tool-mysql.md)
+- [MySQL 8.0](docs/tool-mysql.md)
+- [Mariadb 10.5](docs/tool-mysql.md)
+- Percona 8.0
 - Postgres 13.2
 
 ## Bancos de Dados NoSQL
 
-- [Riak KV 2.2](docs/tools-riakkv.md)
+- [Riak KV 2.2](docs/tool-riakkv.md)
 ## Mensageria
 
-- [RabbitMQ 3.8](docs/tools-rabbitmq.md)
-- [Kafka 2.7](docs/tools-kafka.md)
+- [RabbitMQ 3.8](docs/tool-rabbitmq.md)
+- [Kafka 2.7](docs/tool-kafka.md)
 
 ## Outras informações
 
-- [Portas no Docker Compose](docs/docker-compose-ports.md)
 - [Docker Hub Automated Builds](docs/automated-builds.md)

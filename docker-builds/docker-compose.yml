@@ -32,7 +32,34 @@ services:
     container_name: test-project-mysql
     restart: always
     ports:
-      - "1010:3306"
+      - "2000:3306"
+    networks:
+      - dev-network
+
+  mariadb:
+    image: local/docker-project:mariadb105
+    container_name: test-project-mariadb
+    restart: always
+    ports:
+      - "2001:3306"
+    networks:
+      - dev-network
+
+  percona:
+    image: local/docker-project:percona80
+    container_name: test-project-percona
+    restart: always
+    ports:
+      - "2001:3306"
+    networks:
+      - dev-network
+
+  postgres:
+    image: local/docker-project:postgres13
+    container_name: test-project-postgres
+    restart: always
+    ports:
+      - "2002:8080"
     networks:
       - dev-network
 
@@ -43,16 +70,7 @@ services:
     depends_on: 
       - mysql
     ports:
-      - 1020:80
-    networks:
-      - dev-network
-
-  rabbitmq:
-    image: local/docker-project:rabbitmq38
-    container_name: test-project-rabbitmq
-    ports:
-      - 1030:5672
-      - 1040:15672
+      - 3000:80
     networks:
       - dev-network
 
@@ -60,8 +78,8 @@ services:
     image: local/docker-project:riakkv22
     container_name: test-project-riakkv
     ports:
-      - "1050:8087"
-      - "1060:8098"
+      - "4000:8087"
+      - "4001:8098"
     networks:
       - dev-network
 
@@ -69,8 +87,8 @@ services:
     image: local/docker-project:zookeeper35
     container_name: test-project-zookeeper
     ports:
-      - 1070:2181
-      - 1080:2000
+      - 4005:2181
+      - 4006:2000
     networks:
       - dev-network
 
@@ -80,7 +98,7 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - 1090:9092
+      - 4007:9092
     networks:
       - dev-network
 
@@ -90,16 +108,16 @@ services:
     depends_on:
       - kafka
     ports:
-      - 1100:9000
+      - 5000:9000
     networks:
       - dev-network
 
-  postgres:
-    image: local/docker-project:postgres13
-    container_name: test-project-postgres
-    restart: always
+  rabbitmq:
+    image: local/docker-project:rabbitmq38
+    container_name: test-project-rabbitmq
     ports:
-      - "1110:8080"
+      - 6001:5672
+      - 6002:15672
     networks:
       - dev-network
     

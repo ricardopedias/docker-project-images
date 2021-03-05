@@ -1,10 +1,10 @@
 #-------------------------------------------------------------------------------------
-# PhpProject - Mysql 8.0
-# Imagem oficial (Docker Hub): https://hub.docker.com/_/mysql
-# Imagem oficial (Git Hub): https://github.com/docker-library/mysql
+# PhpProject - MariaDB 10.5.x
+# Imagem oficial (Docker Hub): https://hub.docker.com/_/mariadb
+# Imagem oficial (Git Hub): https://github.com/MariaDB/mariadb-docker
 #-------------------------------------------------------------------------------------
 
-FROM mysql:8.0
+FROM mariadb:10.5
 
 # Corrige alguns problemas estranhos do terminal, 
 # como problemas como 'clear' ou CTRL+L
@@ -26,24 +26,23 @@ ENV MYSQL_DATABASE devel
 ENV MYSQL_USER devel
 ENV MYSQL_PASSWORD devel
 
-RUN echo 'deb http://deb.debian.org/debian/ buster-backports main' > /etc/apt/sources.list.d/mysql.list
+#RUN echo 'deb http://deb.debian.org/debian/ buster-backports main' > /etc/apt/sources.list.d/mysql.list
 RUN apt-get update
 RUN apt-get install -y nginx
 RUN apt-get install -y php php-fpm php-mysql php-mbstring
-RUN apt-get install -y -t buster-backports phpmyadmin
+RUN apt-get install -y phpmyadmin
 
 #RUN echo "user=root" >> /etc/mysql/conf.d/docker.cnf
 
-ADD overrides.conf /etc/php/7.3/fpm/pool.d/z-overrides.conf
-ADD php-ini-overrides.ini /etc/php/7.3/fpm/conf.d/99-overrides.ini
+ADD overrides.conf /etc/php/7.4/fpm/pool.d/z-overrides.conf
+ADD php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY config.inc.php /etc/phpmyadmin/config.inc.php
-ADD my.cnf /etc/mysql/my.cnf
 
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod a+x /entrypoint.sh
+ADD entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod a+x /usr/local/bin/docker-entrypoint.sh
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/usr/local/bin/docker-entrypoint.sh" ]
 
 CMD ["mysqld"]
 

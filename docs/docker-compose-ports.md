@@ -1,7 +1,7 @@
 # Portas configuradas no Docker Compose
 
-Os arquivos do Docker Compose (docker-compose.yml) existentes no diretório `projects` seguem um 
-esquema, de forma que nas portas são mapeadas a fim de que nenhuma ferramenta entre em conflito,
+Os exemplos do Docker Compose (docker-compose.yml) existentes na documentação seguem um 
+esquema, de forma que nas portas são mapeadas para nenhuma ferramenta entre em conflito,
 tornando possível a ativação de todas juntas (desde que seja apenas uma versão de cada ferramenta).
 
 Embora você possa configurar o docker-compose.yml do seu gosto, mapeando para portas diferentes,
@@ -30,6 +30,7 @@ As portas originais foram mapeadas da seguinte forma:
 | --------------- | -------------- | ------------- |
 |  riak-kv        | 8087           | 3000          |
 |  riak-kv adm    | 8098           | 3001          |
+|  eventstore     | 8098           | 3002          |
 
 | Mensageria      | Porta Original | Porta Mapeada |
 | --------------- | -------------- | ------------- |

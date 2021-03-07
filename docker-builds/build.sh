@@ -45,7 +45,7 @@ cd ../docker-projects
 docker run -d -it --name="${1}" \
     --network $DEV_NETWORK \
     --volume $(pwd)/php:/application \
-    -p ${2}:80 \
+    -p ${2}:8081 \
     local/docker-project:${1}
 
 # --mount type=bind,source="$(pwd)/docker-php.ini",target="/etc/php/7.4/fpm/conf.d/docker-php.ini"

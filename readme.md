@@ -30,6 +30,7 @@ Use por sua conta e risco!
 ## Bancos de Dados NoSQL
 
 - [Riak KV 2.2](docs/tool-riakkv.md)
+- [EventStore 21.2](docs/tool-eventstore.md)
 ## Mensageria
 
 - [RabbitMQ 3.8](docs/tool-rabbitmq.md)

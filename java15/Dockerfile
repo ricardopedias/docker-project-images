@@ -16,7 +16,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV RUNNING_DOCKER=1
 
 # Diretório principal da imagem
-WORKDIR /application
+WORKDIR /usr/local/tomcat/webapps/ROOT
 
 ADD tomcat-users.xml /usr/local/tomcat/conf/tomcat-users.xml
 ADD context.xml /tmp/context.xml
@@ -24,16 +24,6 @@ ADD context.xml /tmp/context.xml
 RUN mv /usr/local/tomcat/webapps /usr/local/tomcat/webapps2; \
     mv /usr/local/tomcat/webapps.dist /usr/local/tomcat/webapps; \
     cp /tmp/context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml;
-
-# sudo docker run \
-#   --name tomcat \
-#   -it \
-#   -p 8080:8080 \
-#   -v /tmp/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml \
-#   -v /tmp/context.xml:/tmp/context.xml \
-#   tomcat:9.0 \
-#   /bin/bash -c "mv /usr/local/tomcat/webapps /usr/local/tomcat/webapps2; mv /usr/local/tomcat/webapps.dist /usr/local/tomcat/webapps; cp /tmp/context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml; catalina.sh run"
-
 
 STOPSIGNAL SIGQUIT
 

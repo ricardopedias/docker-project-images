@@ -1,0 +1,175 @@
+version: "3.1"
+services:
+  php80:
+    image: ricardopedias/docker-project:php80
+    container_name: php80
+    volumes:
+      - ./projects/php:/application
+    ports:
+      - 1000:80
+    networks:
+      - dev-network
+
+  php74:
+    image: ricardopedias/docker-project:php74
+    container_name: php74
+    volumes:
+      - ./projects/php:/application
+    ports:
+      - 1001:80
+    networks:
+      - dev-network
+
+  php56:
+    image: ricardopedias/docker-project:php56
+    container_name: php56
+    volumes:
+      - ./projects/php:/application
+    ports:
+      - 1002:80
+    networks:
+      - dev-network
+
+  java15:
+    image: ricardopedias/docker-project:java15
+    container_name: java15
+    volumes:
+      - ./projects/java:/usr/local/tomcat/webapps/ROOT
+    ports:
+      - 1003:8080
+    networks:
+      - dev-network
+
+  composer:
+    image: ricardopedias/docker-project:composer20
+    container_name: composer20
+    volumes:
+      - ./projects/php:/application
+    command: composer install --ignore-platform-reqs
+    networks:
+      - dev-network
+
+  mysql80:
+    image: ricardopedias/docker-project:mysql80
+    container_name: mysql80
+    restart: always
+    volumes:
+      - ./storage/mysql:/var/lib/mysql
+    ports:
+      - 2001:3306
+      - 2002:80
+    networks:
+      - dev-network
+      
+  mysql57:
+    image: ricardopedias/docker-project:mysql57
+    container_name: mysql57
+    restart: always
+    volumes:
+      - ./storage/mysql:/var/lib/mysql
+    ports:
+      - 2003:3306
+      - 2004:80
+    networks:
+      - dev-network
+
+  mariadb105:
+    image: ricardopedias/docker-project:mariadb105
+    container_name: mariadb105
+    restart: always
+    volumes:
+      - ./storage/mysql:/var/lib/mysql
+    ports:
+      - 2005:3306
+      - 2006:80
+    networks:
+      - dev-network
+
+  postgres13:
+    image: ricardopedias/docker-project:postgres13
+    container_name: postgres13
+    restart: always
+    volumes:
+      - ./storage/postgres:/var/lib/postgresql/data
+    ports:
+      - 2007:8080"
+      - 2008:80"
+    networks:
+      - dev-network
+
+  riakkv223:
+    image: ricardopedias/docker-project:riakkv223
+    container_name: riakkv223
+    volumes:
+      - ./storage/riakkv:/etc/riak/schemas
+    ports:
+      - "3001:8087"
+      - "3002:8098"
+    networks:
+      - dev-network
+
+  mongo44:
+    image: ricardopedias/docker-project:mongo44
+    container_name: mongo44
+    volumes:
+      - ./storage/mongo:/data/db
+    ports:
+      - "3003:27017"
+    networks:
+      - dev-network
+
+  mongo-mongoexpress054:
+    image: ricardopedias/docker-project:mongoexpress054
+    container_name: mongoexpress054
+    ports:
+      - "3004:8081"
+    networks:
+      - dev-network
+    links:
+      - mongo44
+
+  rabbitmq:
+    image: ricardopedias/docker-project:rabbitmq38
+    container_name: rabbitmq38
+    volumes:
+      - ./storage/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 4001:5672
+      - 4002:15672
+    networks:
+      - dev-network
+
+  zookeeper35:
+    image: ricardopedias/docker-project-images:zookeeper35
+    container_name: zookeeper35
+    ports:
+      - 4003:2181
+      - 4004:2000
+    networks:
+      - dev-network
+
+  kafka27:
+    image: ricardopedias/docker-project:kafka27
+    container_name: kafka27
+    depends_on:
+      - zookeeper
+    ports:
+      - 4005:9092
+    networks:
+      - dev-network
+
+  kafdrop327:
+    image: ricardopedias/docker-project:kafdrop327
+    container_name: kafdrop327
+    depends_on:
+      - kafka
+    ports:
+      - 4006:9000
+    networks:
+      - dev-network
+
+  
+    
+networks:
+  dev-network:
+    driver: bridge

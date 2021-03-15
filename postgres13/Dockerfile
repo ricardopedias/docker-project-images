@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------
-# PhpProject - Postgres 13.2
+# DockerProject - Postgres 13.2
 # Imagem oficial (Docker Hub): https://hub.docker.com/_/postgres
 # Imagem oficial (Git Hub): https://github.com/docker-library/postgres
 #-------------------------------------------------------------------------------------

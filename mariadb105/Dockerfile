@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------
-# PhpProject - MariaDB 10.5.x
+# DockerProject - MariaDB 10.5.x
 # Imagem oficial (Docker Hub): https://hub.docker.com/_/mariadb
 # Imagem oficial (Git Hub): https://github.com/MariaDB/mariadb-docker
 #-------------------------------------------------------------------------------------

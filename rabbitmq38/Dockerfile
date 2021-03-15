@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------
-# PhpProject - RabbitMQ 3.8
+# DockerProject - RabbitMQ 3.8
 # Imagem oficial (Docker Hub): https://hub.docker.com/_/rabbitmq
 # Advanced Message Queuing Protocol (AMQP).
 #-------------------------------------------------------------------------------------

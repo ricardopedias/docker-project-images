@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------
-# PhpProject - Riak 2.2.3
+# DockerProject - Riak 2.2.3
 # Imagem oficial (Docker Hub): https://hub.docker.com/basho/riak-kv
 # https://github.com/basho-labs/riak-docker
 # https://github.com/basho/riak-php-client

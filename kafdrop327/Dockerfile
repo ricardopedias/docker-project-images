@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------
-# PhpProject - Apache Kafka 2.7
+# DockerProject - Apache Kafka 2.7
 # https://hub.docker.com/r/obsidiandynamics/kafdrop
 # https://github.com/obsidiandynamics/kafdrop
 #-------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------
-# PhpProject - Apache Zookepper (Confluentinc Platform)
+# DockerProject - Apache Zookepper (Confluentinc Platform)
 # https://hub.docker.com/layers/confluentinc/cp-zookeeper
 # https://github.com/confluentinc/kafka-images
 # https://docs.confluent.io/platform/current/installation/versions-interoperability.html

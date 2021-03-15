@@ -16,6 +16,7 @@ Use por sua conta e risco!
 
 ## Linguagens
 
+- [Java 15](docs/tool-java.md)
 - [PHP 5.6](docs/tool-php.md)
 - [PHP 7.4](docs/tool-php.md)
 - [PHP 8.0](docs/tool-php.md)

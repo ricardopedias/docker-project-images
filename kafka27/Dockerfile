@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------
-# PhpProject - Apache Kafka (Confluentinc Platform)
+# DockerProject - Apache Kafka (Confluentinc Platform)
 # https://hub.docker.com/layers/confluentinc/cp-kafka
 # https://github.com/confluentinc/kafka-images
 # https://docs.confluent.io/platform/current/installation/versions-interoperability.html

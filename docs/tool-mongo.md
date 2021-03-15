@@ -24,7 +24,7 @@ version: "3.1"
 services:
   eventstore:
     image: ricardopedias/docker-project:mongo44
-    container_name: project-eventstore
+    container_name: project-mongodb
     volumes:
       - ./storage/mongo-data:/data/db 
       - ./storage/mongo-config:/data/configdb

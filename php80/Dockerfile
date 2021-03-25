@@ -39,59 +39,51 @@ RUN apt-get -y --no-install-recommends install \
 RUN apt-get -y --no-install-recommends install \
     php8.0-cli \
     php8.0-fpm \
+    php8.0-amqp \
     php8.0-bcmath \
     php8.0-bz2 \
     php8.0-calendar \
     php8.0-curl \
     php8.0-dba \
+    php8.0-ds \
     php8.0-enchant \
     php8.0-exif \ 
+    php8.0-gearman \
     php8.0-gd \
+    php8.0-gmp \
+    php8.0-grpc \
+    php8.0-igbinary \
+    php8.0-imagick \
     php8.0-imap \
     php8.0-interbase \
     php8.0-intl \
-    php8.0-gmp \
     php8.0-ldap \
+    php8.0-memcached \
     php8.0-mbstring \
+    php8.0-mongodb \
+    php8.0-msgpack \
     php8.0-mysql \
+    php8.0-oauth \
     php8.0-odbc \
     php8.0-opcache \
     php8.0-pgsql \
     php8.0-phpdbg \
     php8.0-pspell \
+    php8.0-raphf \
     php8.0-readline \
+    php8.0-redis \
     php8.0-soap \
     php8.0-sqlite3 \ 
+    php8.0-ssh2 \
     php8.0-sybase \
     php8.0-tidy \
     php8.0-xml \
     php8.0-xmlrpc \
     php8.0-xsl \
     php8.0-zip \
-    php8.0-mysql
-
-# Extensões pecl
-RUN apt-get -y --no-install-recommends install \
-    php-amqp \
-    php-apcu \
-    php-apcu-bc \
-    php-ds \
-    php-gearman \
-    php-grpc \
-    php-igbinary \
-    php-imagick \
-    php-memcached \
-    php-mongo \
-    php-mongodb \
-    php-msgpack \
-    php-oauth \
-    php-raphf \
-    php-redis \
-    php-ssh2 \
-    php-tideways \
-    php-xdebug \
-    php-yaml \
-    php-zmq
+    php8.0-xdebug \
+    php8.0-yaml \
+    php8.0-zmq
 
 # Nginx
 RUN apt-get -y install nginx;
@@ -103,6 +95,13 @@ RUN composer clear-cache
 # Limpeza de caches
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
+#RUN echo "zend_extension=/usr/lib/php/20200930/xdebug.so" > /etc/php/8.0/mods-available/xdebug.ini
+RUN echo "xdebug.remote_enable=on" >> /etc/php/8.0/mods-available/xdebug.ini
+RUN echo "xdebug.remote_handler=dbgp" >> /etc/php/8.0/mods-available/xdebug.ini
+RUN echo "xdebug.remote_port=9000" >> /etc/php/8.0/mods-available/xdebug.ini
+RUN echo "xdebug.remote_autostart=on" >> /etc/php/8.0/mods-available/xdebug.ini
+RUN echo "xdebug.remote_connect_back=0" >> /etc/php/8.0/mods-available/xdebug.ini
+RUN echo "xdebug.idekey=docker" >> /etc/php/8.0/mods-available/xdebug.ini
 
 ADD overrides.conf /etc/php/8.0/fpm/pool.d/z-overrides.conf
 ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini

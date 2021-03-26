@@ -102,6 +102,8 @@ RUN echo "xdebug.remote_port=9000" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.remote_autostart=on" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.remote_connect_back=0" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.idekey=docker" >> /etc/php/8.0/mods-available/xdebug.ini
+RUN echo "xdebug.mode=coverage" >> /etc/php/8.0/mods-available/xdebug.ini
+
 
 ADD overrides.conf /etc/php/8.0/fpm/pool.d/z-overrides.conf
 ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini

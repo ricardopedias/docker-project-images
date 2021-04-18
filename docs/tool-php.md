@@ -17,7 +17,7 @@ Um exemplo de configuração via Docker Compose:
 version: "3.1"
 services:
   php:
-    image: riacrdopedias/docker-project:php80
+    image: ricardopedias/docker-project:php80
     container_name: container-php
     volumes:
       - .:/application

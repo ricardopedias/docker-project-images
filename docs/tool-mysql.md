@@ -19,7 +19,7 @@ Um exemplo de configuração via Docker Compose:
 version: "3.1"
 services:
   mysql:
-    image: riacrdopedias/docker-project:mysql80
+    image: ricardopedias/docker-project:mysql80
     container_name: container-mysql
     volumes:
       - ./my-mysql/storage:/var/lib/mysql

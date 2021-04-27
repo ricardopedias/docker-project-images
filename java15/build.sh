@@ -26,16 +26,11 @@ docker container rm $CONTAINER --force
 # gera a nova imagem
 docker build . -t local/docker-project:$CONTAINER -f Dockerfile
 
-# exit
-cd ../docker-builds
-
 echo ""
 echo "-----------------------------------------------------------------"
 echo ""
 echo -e "\033[1;32m Subindo o container\033[0m";
 echo ""
-
-cd ../docker-projects
 
 docker run -d -it --name="$CONTAINER" \
     --network $DEV_NETWORK \
@@ -45,5 +40,3 @@ docker run -d -it --name="$CONTAINER" \
     local/docker-project:$CONTAINER
 
 docker exec -it $CONTAINER bash
-
-cd ../docker-builds

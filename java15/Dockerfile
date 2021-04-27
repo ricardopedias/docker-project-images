@@ -25,6 +25,12 @@ RUN mv /usr/local/tomcat/webapps /usr/local/tomcat/webapps2; \
     mv /usr/local/tomcat/webapps.dist /usr/local/tomcat/webapps; \
     cp /tmp/context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml;
 
+# Instala o gradle
+RUN wget https://services.gradle.org/distributions/gradle-7.0-bin.zip -P /tmp
+RUN unzip -d /opt/gradle /tmp/gradle-*.zip
+RUN rm -f /tmp/gradle-*.zip
+RUN ln -s /opt/gradle/gradle-7.0/bin/gradle /usr/bin/gradle
+
 STOPSIGNAL SIGQUIT
 
 EXPOSE 8080

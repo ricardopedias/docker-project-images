@@ -2,28 +2,12 @@
 
 As imagens do java já possuem o servidor Tomcat configurado e acessível através da porta 8080, que pode ser mapeada para uma outra através da execução do container via Docker ou Docker Compose.
 
-As seguintes versões da linguagem estão presentes:
+As seguintes versões da linguagem podem ser usadas:
 
 - Java 15 ricardopedias/docker-project:java15
 
-## Docker Compose
+## Projeto de exemplo
 
-Um exemplo de configuração via Docker Compose:
+Um projeto de exemplo pode ser obtido em:
 
-```
-version: "3.1"
-services:
-  java:
-    image: ricardopedias/docker-project:java15
-    container_name: container-java
-    volumes:
-      - ./:/usr/local/tomcat/webapps/ROOT
-    ports:
-      - "10000:8080"
-    networks:
-      - dev-network
-      
-networks:
-  dev-network:
-    driver: bridge
-```
+[Java15 Example Project](https://github.com/ricardopedias/docker-project-images/tree/master/java15/example-project)

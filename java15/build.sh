@@ -3,6 +3,7 @@
 CONTAINER=$(basename $(pwd))
 PROJECT="$(pwd)/example-project"
 DEV_NETWORK='dev-network'
+DEV_PORT="8888"
 
 if test "$1" == "--kill"
 then
@@ -33,10 +34,19 @@ echo -e "\033[1;32m Subindo o container\033[0m";
 echo ""
 
 docker run -d -it --name="$CONTAINER" \
+    --volume "$PROJECT:/application" \
+    local/docker-project:$CONTAINER
+
+echo "Gerando a aplicação Java"
+docker exec -it $CONTAINER gradle build
+docker container rm $CONTAINER --force
+
+echo "Executando em localhost:$DEV_PORT"
+docker run -d -it --name="$CONTAINER" \
     --network $DEV_NETWORK \
-    --volume "$PROJECT:/usr/local/tomcat/webapps/application" \
-    --volume "$PROJECT:/usr/local/tomcat/webapps/ROOT" \
-    -p 80:8080 \
+    --volume "$PROJECT/build/libs:/usr/local/tomcat/webapps" \
+    --volume "$PROJECT:/application" \
+    -p "$DEV_PORT:8080" \
     local/docker-project:$CONTAINER
 
 docker exec -it $CONTAINER bash

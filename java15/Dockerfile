@@ -16,7 +16,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV RUNNING_DOCKER=1
 
 # Diretório principal da imagem
-WORKDIR /usr/local/tomcat/webapps/ROOT
+RUN mkdir /application
+WORKDIR /application
+# WORKDIR /usr/local/tomcat/webapps/ROOT
 
 ADD tomcat-users.xml /usr/local/tomcat/conf/tomcat-users.xml
 ADD context.xml /tmp/context.xml

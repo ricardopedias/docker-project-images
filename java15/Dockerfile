@@ -18,7 +18,6 @@ ENV RUNNING_DOCKER=1
 # Diretório principal da imagem
 RUN mkdir /application
 WORKDIR /application
-# WORKDIR /usr/local/tomcat/webapps/ROOT
 
 ADD tomcat-users.xml /usr/local/tomcat/conf/tomcat-users.xml
 ADD context.xml /tmp/context.xml
@@ -36,4 +35,5 @@ RUN ln -s /opt/gradle/gradle-7.0/bin/gradle /usr/bin/gradle
 STOPSIGNAL SIGQUIT
 
 EXPOSE 8080
-CMD ["catalina.sh", "run"]
+
+CMD exec /bin/bash -c "useradd -ms /bin/bash \"devel\" >/dev/null 2>&1; echo \"Running... Press Ctrl+C to stop\"; catalina.sh start; trap : TERM INT; sleep infinity & wait"

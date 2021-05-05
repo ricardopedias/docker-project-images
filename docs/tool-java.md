@@ -8,6 +8,5 @@ As seguintes versões da linguagem podem ser usadas:
 
 ## Projeto de exemplo
 
-Um projeto de exemplo pode ser obtido em:
-
-[Java15 Example Project](https://github.com/ricardopedias/docker-project-images/tree/master/java15/example-project)
+Um projeto de exemplo pode ser obtido em 
+[Docker Project Images - Java15](https://github.com/ricardopedias/docker-project-skeleton-java15)

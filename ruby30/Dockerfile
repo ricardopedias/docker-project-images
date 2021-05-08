@@ -22,11 +22,19 @@ RUN rm -f /etc/service/nginx/down
 RUN rm /etc/nginx/sites-enabled/default
 ADD nginx.conf /etc/nginx/sites-enabled/webapp.conf
 
+RUN gem install eventmachine
+RUN gem install daemons
+RUN gem install thin
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /var/tmp/*
 
 RUN mkdir /application
+RUN chmod 777 /application
 WORKDIR /application
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ENV HOME /application
+RUN mkdir -p /tmp/application
+RUN chmod 777 /tmp/application
 
 STOPSIGNAL SIGQUIT
 
@@ -35,6 +43,5 @@ EXPOSE 443
 EXPOSE 8080
 EXPOSE 9292 
 EXPOSE 3000
-
 
 CMD exec /bin/bash -c "useradd -ms /bin/bash \"devel\" >/dev/null 2>&1; /sbin/my_init"

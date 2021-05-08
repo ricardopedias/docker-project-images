@@ -20,6 +20,7 @@ Use por sua conta e risco!
 - [PHP 5.6](docs/tool-php.md)
 - [PHP 7.4](docs/tool-php.md)
 - [PHP 8.0](docs/tool-php.md)
+- [Ruby 3.0](docs/tool-ruby.md)
 
 ## Bancos de Dados SQL
 

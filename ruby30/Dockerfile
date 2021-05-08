@@ -17,10 +17,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Para identificar o uso do docker dentro da aplicação PHP
 ENV RUNNING_DOCKER=1
 
-# Diretório principal da imagem
-
-ENV HOME /root
-
 # Using Nginx and Passenger
 RUN rm -f /etc/service/nginx/down
 RUN rm /etc/nginx/sites-enabled/default

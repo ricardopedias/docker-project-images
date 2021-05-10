@@ -4,6 +4,7 @@ As imagens do java já possuem o servidor Tomcat configurado e acessível atrav�
 
 As seguintes versões da linguagem podem ser usadas:
 
+- Java 8 ricardopedias/docker-project:java8
 - Java 15 ricardopedias/docker-project:java15
 
 ## Projeto de exemplo

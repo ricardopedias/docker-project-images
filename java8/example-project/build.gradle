@@ -1,0 +1,42 @@
+plugins {
+  id 'war'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  // Jakarta Servlet 5.0 API
+  // https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api
+  providedCompile 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+}
+
+// Java 15
+sourceCompatibility = 15
+targetCompatibility = 15
+
+// Application
+// https://docs.gradle.org/7.0/dsl/org.gradle.api.tasks.bundling.AbstractArchiveTask.html
+version = ''
+war {
+  archiveExtension = 'war'
+  archiveBaseName = 'app'
+  archiveVersion = ''
+}
+
+//
+// Limpa o diretório build
+//
+apply plugin: 'java'
+allprojects {
+    afterEvaluate { project ->
+      project.task('cleanUp') {
+        delete buildDir
+      }
+    }
+}
+
+
+// build.dependsOn(cleaUp)
+// build.finalizedBy(cleaUp)

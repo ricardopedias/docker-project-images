@@ -17,6 +17,7 @@ Use por sua conta e risco!
 
 ## Linguagens
 
+- [Java 8](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-java.md)
 - [Java 15](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-java.md)
 - [PHP 5.6](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php.md)
 - [PHP 7.4](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php.md)

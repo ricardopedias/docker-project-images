@@ -31,6 +31,7 @@ RUN apt-get update \
 # Dependências e ferramentas de sistema
 RUN apt-get -y --no-install-recommends install \
     ca-certificates \
+    build-essential \
     unzip \
     curl \
     vim
@@ -92,6 +93,17 @@ RUN apt-get -y install nginx;
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 RUN composer clear-cache
 
+# Node
+# https://github.com/nodesource/distributions#debinstall
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+
+# Deployer
+# https://deployer.org/download/
+RUN curl -LO https://deployer.org/deployer.phar
+RUN mv deployer.phar /usr/local/bin/dep
+RUN chmod +x /usr/local/bin/dep
+
 # Limpeza de caches
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
@@ -103,7 +115,6 @@ RUN echo "xdebug.remote_autostart=on" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.remote_connect_back=0" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.idekey=docker" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.mode=coverage" >> /etc/php/8.0/mods-available/xdebug.ini
-
 
 ADD overrides.conf /etc/php/8.0/fpm/pool.d/z-overrides.conf
 ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini

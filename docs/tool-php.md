@@ -9,24 +9,7 @@ As seguintes versões da linguagem estão presentes:
 - PHP 7.4 ricardopedias/docker-project:php74
 - PHP 8.0 ricardopedias/docker-project:php80
 
-## Docker Compose
+## Projeto de exemplo
 
-Um exemplo de configuração via Docker Compose:
-
-```
-version: "3.1"
-services:
-  php:
-    image: ricardopedias/docker-project:php80
-    container_name: container-php
-    volumes:
-      - .:/application
-    ports:
-      - "8080:80"
-    networks:
-      - my-network
-      
-networks:
-  dev-network:
-    driver: bridge
-```
+Um projeto de exemplo pode ser obtido em 
+[Docker Project Images - PHP80](https://github.com/ricardopedias/docker-project-skeleton-php80)

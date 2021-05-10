@@ -27,6 +27,7 @@ RUN apt-get update \
 # Dependências e ferramentas de sistema
 RUN apt-get -y --no-install-recommends install \
     ca-certificates \
+    build-essential \
     unzip \
     curl \
     vim
@@ -35,60 +36,51 @@ RUN apt-get -y --no-install-recommends install \
 RUN apt-get -y --no-install-recommends install \
     php7.4-cli \
     php7.4-fpm \
+    php7.4-amqp \
     php7.4-bcmath \
     php7.4-bz2 \
     php7.4-calendar \
     php7.4-curl \
     php7.4-dba \
+    php7.4-ds \
     php7.4-enchant \
-    php7.4-exif \
+    php7.4-exif \ 
+    php7.4-gearman \
     php7.4-gd \
+    php7.4-gmp \
+    php7.4-grpc \
+    php7.4-igbinary \
+    php7.4-imagick \
     php7.4-imap \
     php7.4-interbase \
     php7.4-intl \
-    php7.4-gmp \
-    php7.4-json \
     php7.4-ldap \
+    php7.4-memcached \
     php7.4-mbstring \
+    php7.4-mongodb \
+    php7.4-msgpack \
     php7.4-mysql \
+    php7.4-oauth \
     php7.4-odbc \
     php7.4-opcache \
     php7.4-pgsql \
     php7.4-phpdbg \
     php7.4-pspell \
+    php7.4-raphf \
     php7.4-readline \
+    php7.4-redis \
     php7.4-soap \
     php7.4-sqlite3 \ 
+    php7.4-ssh2 \
     php7.4-sybase \
     php7.4-tidy \
     php7.4-xml \
     php7.4-xmlrpc \
     php7.4-xsl \
     php7.4-zip \
-    php7.4-mysql
-
-# Extensões pecl
-RUN apt-get -y --no-install-recommends install \
-    php-amqp \
-    php-apcu \
-    php-apcu-bc \
-    php-ds \
-    php-gearman \
-    php-grpc \
-    php-igbinary \
-    php-imagick \
-    php-memcached \
-    php-mongo \
-    php-mongodb \
-    php-msgpack \
-    php-oauth \
-    php-raphf \
-    php-redis \
-    php-ssh2 \
-    php-tideways \
-    php-xdebug \
-    php-yaml \
-    php-zmq
+    php7.4-xdebug \
+    php7.4-yaml \
+    php7.4-zmq
 
 # Nginx
 RUN apt-get -y install nginx;
@@ -97,9 +89,28 @@ RUN apt-get -y install nginx;
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 RUN composer clear-cache
 
+# Node
+# https://github.com/nodesource/distributions#debinstall
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+
+# Deployer
+# https://deployer.org/download/
+RUN curl -LO https://deployer.org/deployer.phar
+RUN mv deployer.phar /usr/local/bin/dep
+RUN chmod +x /usr/local/bin/dep
+
 # Limpeza de caches
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
+
+RUN echo "xdebug.remote_enable=on" >> /etc/php/7.4/mods-available/xdebug.ini
+RUN echo "xdebug.remote_handler=dbgp" >> /etc/php/7.4/mods-available/xdebug.ini
+RUN echo "xdebug.remote_port=9000" >> /etc/php/7.4/mods-available/xdebug.ini
+RUN echo "xdebug.remote_autostart=on" >> /etc/php/7.4/mods-available/xdebug.ini
+RUN echo "xdebug.remote_connect_back=0" >> /etc/php/7.4/mods-available/xdebug.ini
+RUN echo "xdebug.idekey=docker" >> /etc/php/7.4/mods-available/xdebug.ini
+RUN echo "xdebug.mode=coverage" >> /etc/php/7.4/mods-available/xdebug.ini
 
 ADD overrides.conf /etc/php/7.4/fpm/pool.d/z-overrides.conf
 ADD php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini

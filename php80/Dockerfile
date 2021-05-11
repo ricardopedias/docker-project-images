@@ -22,11 +22,13 @@ ENV RUNNING_DOCKER=1
 WORKDIR /application
 
 # Configuração dos repositórios do Ondrej para Ubuntu 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends gnupg \
+RUN apt-get update;
+
+RUN apt-get install -y --no-install-recommends gnupg \
     && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu groovy main" > /etc/apt/sources.list.d/ondrej-php.list \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
-    && apt-get update
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C;
+
+RUN apt-get update
 
 # Dependências e ferramentas de sistema
 RUN apt-get -y --no-install-recommends install \
@@ -87,7 +89,7 @@ RUN apt-get -y --no-install-recommends install \
     php8.0-zmq
 
 # Nginx
-RUN apt-get -y install nginx;
+RUN apt-get -y --no-install-recommends install nginx;
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -96,7 +98,8 @@ RUN composer clear-cache
 # Node
 # https://github.com/nodesource/distributions#debinstall
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends nodejs
 
 # Deployer
 # https://deployer.org/download/

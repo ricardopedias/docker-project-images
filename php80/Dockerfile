@@ -36,7 +36,8 @@ RUN apt-get -y --no-install-recommends install \
     build-essential \
     unzip \
     curl \
-    vim
+    vim \
+    git
 
 # PHP e extensões padrões
 RUN apt-get -y --no-install-recommends install \
@@ -88,6 +89,15 @@ RUN apt-get -y --no-install-recommends install \
     php8.0-yaml \
     php8.0-zmq
 
+RUN apt-get -y install php-pear \
+    php8.0-dev \
+    librdkafka++1 \
+    librdkafka-dev \
+    librdkafka1;
+
+RUN git clone https://github.com/arnaud-lb/php-rdkafka.git;
+RUN cd php-rdkafka; phpize; ./configure; make all -j 5; make install
+
 # Nginx
 RUN apt-get -y --no-install-recommends install nginx;
 
@@ -108,8 +118,10 @@ RUN mv deployer.phar /usr/local/bin/dep
 RUN chmod +x /usr/local/bin/dep
 
 # Limpeza de caches
+RUN apt-get -y remove php-pear php8.0-dev librdkafka-dev
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
+
 #RUN echo "zend_extension=/usr/lib/php/20200930/xdebug.so" > /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.remote_enable=on" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.remote_handler=dbgp" >> /etc/php/8.0/mods-available/xdebug.ini
@@ -120,6 +132,8 @@ RUN echo "xdebug.idekey=docker" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.mode=coverage" >> /etc/php/8.0/mods-available/xdebug.ini
 
 ADD overrides.conf /etc/php/8.0/fpm/pool.d/z-overrides.conf
+ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
+ADD rdkafka.ini /etc/php/8.0/cli/conf.d/20-rdkafka.ini
 ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 

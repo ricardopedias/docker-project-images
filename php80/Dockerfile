@@ -89,14 +89,43 @@ RUN apt-get -y --no-install-recommends install \
     php8.0-yaml \
     php8.0-zmq
 
-RUN apt-get -y install php-pear \
-    php8.0-dev \
+# Kafka + Zookeeper
+RUN apt-get -y install php8.0-dev \
     librdkafka++1 \
     librdkafka-dev \
     librdkafka1;
 
+# RUN apt-get -y install php-pear;
+
+# # Zookeeper
+# RUN git clone https://github.com/andreiz/php-zookeeper.git
+# RUN cd php-zookeeper; \
+#     phpize; \
+#     ./configure; \
+#     make; \
+#     make install; \
+#     cd ../; \
+#     rm -Rf php-zookeeper
+
+# # https://pecl.php.net/package/zookeeper
+# RUN curl -fsSL https://pecl.php.net/get/zookeeper-0.7.2.tgz | tar zxvf -
+# RUN cd zookeeper-0.7.2; \
+#     phpize; \
+#     ./configure --with-php-config=/usr/local/php/bin/php-config  --with-libzookeeper-dir=/usr/local/zookeeper; \
+#     make; \
+#     make install; \
+#     cd ../; \
+#     rm -Rf zookeeper-0.7.2
+
+# Kafka
 RUN git clone https://github.com/arnaud-lb/php-rdkafka.git;
-RUN cd php-rdkafka; phpize; ./configure; make all -j 5; make install
+RUN cd php-rdkafka; \
+    phpize; \
+    ./configure; \
+    make all -j 5; \
+    make install \
+    cd ../; \
+    rm -Rf php-rdkafka
 
 # Nginx
 RUN apt-get -y --no-install-recommends install nginx;
@@ -133,7 +162,10 @@ RUN echo "xdebug.mode=coverage" >> /etc/php/8.0/mods-available/xdebug.ini
 
 ADD overrides.conf /etc/php/8.0/fpm/pool.d/z-overrides.conf
 ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
+# ADD rdkafka.ini /etc/php/8.0/cli/conf.d/20-zookeeper.ini
 ADD rdkafka.ini /etc/php/8.0/cli/conf.d/20-rdkafka.ini
+# ADD rdkafka.ini /etc/php/8.0/fpm/conf.d/20-zookeeper.ini
+ADD rdkafka.ini /etc/php/8.0/fpm/conf.d/20-rdkafka.ini
 ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 

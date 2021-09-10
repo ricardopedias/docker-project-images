@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOCAL_CONTAINER="teste-local"
+LOCAL_CONTAINER="teste-local-php80"
 LOCAL_PROJECT="$(pwd)/example-project"
 LOCAL_NETWORK="dev-network"
 LOCAL_PORT="1111"

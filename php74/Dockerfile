@@ -92,7 +92,6 @@ RUN apt-get -y install supervisor
 ADD up-worker.conf /etc/supervisor/conf.d/up-worker.conf
 ADD up-worker.php /opt/up-worker.php
 RUN chmod a+x /opt/up-worker.php
-RUN service supervisor restart
 
 # Nginx
 RUN apt-get -y --no-install-recommends install nginx;

@@ -14,7 +14,7 @@ Abaixo, um exemplo de configuração mínima:
 version: "3.1"
 services:
   php:
-    image: ricardopedias/docker-project:php80
+    image: ricardopedias/docker-project:php74
     container_name: php-fullpower
     volumes:
       - .:/application
@@ -96,7 +96,7 @@ Em seguida, adicione o arquivo `nginx.conf` no mapeamento de volumes do `docker-
 version: "3.1"
 services:
   php:
-    image: ricardopedias/docker-project:php80
+    image: ricardopedias/docker-project:php74
     container_name: php-fullpower
     volumes:
       - .:/application
@@ -143,7 +143,7 @@ Em seguida, faça o mapeamento do worker no `docker-compose.yml`:
 version: "3.1"
 services:
   php:
-    image: ricardopedias/docker-project:php80
+    image: ricardopedias/docker-project:php74
     container_name: php-fullpower
     volumes:
       - .:/application

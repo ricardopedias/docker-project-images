@@ -20,7 +20,7 @@ Use por sua conta e risco!
 - [Java 8](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-java.md)
 - [Java 15](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-java.md)
 - PHP 5.6
-- PHP 7.4
+- [PHP 7.4](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php74.md)
 - [PHP 8.0](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php80.md)
 - [Ruby 3.0](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-ruby.md)
 

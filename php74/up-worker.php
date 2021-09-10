@@ -1,3 +1,5 @@
 <?php
 
-// este worker pode ser mapeado via docker-compose.yml
+if (is_file("/application/public/worker.php")) {
+    include "/application/public/worker.php";
+}

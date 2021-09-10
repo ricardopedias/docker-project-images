@@ -7,8 +7,8 @@ Um projeto de exemplo pode ser obtido em
 
 ## Configuração Mínima
 
-O diretório principal da imagem é localizado em /application.
-Abaixo, em exemplo de configuração mínima:
+O diretório principal da imagem é localizado em `/application`.
+Abaixo, um exemplo de configuração mínima:
 
 ```
 version: "3.1"
@@ -24,7 +24,7 @@ services:
 
 ## Extensões
 
-As imagens possuem a maioria das extensões habilitadas e ativadas por padrão;
+A imagens possui a maioria das extensões habilitadas e ativadas por padrão.
 Inclusive, o XDebug está ativo e funcional na porta 9000.
 
 ## Servidor Web
@@ -33,10 +33,11 @@ O servidor **Nginx** está embutido na imagem, acessível através da porta 80.
 
 ### Diretório root
 
-Por padrão, o diretório root está mapeado para o caminho '/application/public', o que pode ser modificado mapeando uma configuração personalizada.
+Por padrão, o diretório root está pontando para o caminho `/application/public`, o que pode ser modificado mapeando uma configuração personalizada.
 
 ### Mudando o diretório root
-Na raiz do projeto, crie um arquivo de configuração chamado **nginx.conf**, com o seguinde conteúdo:
+
+Na raiz do projeto, crie um arquivo de configuração chamado `nginx.conf`, com o seguinde conteúdo:
 
 ```
 server {
@@ -74,9 +75,9 @@ server {
 }
 ```
 
-A linha `root   /application/public;` define o diretório de mapeamento do Nginx. Personalize-o como quiser, mantendo o prefixo `/application`.
+A linha `root   /application/public;` define o diretório de apontamento do Nginx. Personalize-o como quiser, mantendo o prefixo `/application`.
 
-Em seguida, adicione o arquivo **nginx.conf** no mapeamento de volumes do docker-compose.yml:
+Em seguida, adicione o arquivo `nginx.conf` no mapeamento de volumes do `docker-compose.yml`:
 
 ```
 version: "3.1"
@@ -93,28 +94,25 @@ services:
 
 ## Supervisor
 
-O supervisor também está instalado na imagem. Ele é muito útil, principalmente para desenvolver aplicações Reativas, ou baseadas em Publish/Subscribe.
+O Supervisor também está instalado na imagem. Ele é muito útil, principalmente para desenvolver aplicações Reativas, ou baseadas em Publish/Subscribe.
 
-Para iniciar o supervisor, basta executar o seguinte comando:
+Para iniciar o Supervisor, basta executar o seguinte comando:
 
 ```
 docker exec -it meu-conteiner service supervisor start 
 ```
 
-Por padrão, existe um worker de longa duração apontando para `/opt/up-worker.php`.
-Este worker não faz nada, é apenas um exemplo que fica sempre em execução.
-
-Para configurar um worker útil, existem duas formas:
+Para configurar um worker, existem duas formas:
 
 ### 1. Criar um worker.php
 
 A forma mais fácil é criando um arquivo chamado **worker.php** na raiz do projeto, ou seja, como `/application/public/worker.php`.
 
-A presença deste arquivo irá ser detectada automaticamente e o supervisor irá executala por tempo indeterminado.
+A presença deste arquivo irá ser detectada automaticamente e o Supervisor irá executá-lo por tempo indeterminado.
 
 ### 2. Mapear um novo worker
 
-Se o método anterior não for suficiente, basta mapear um worker pesonalizado. Por exemplo, crie um arquivo chamado **worker.conf** com o seguinte conteúdo:
+Se o método anterior não for suficiente, pode-se mapear um worker pesonalizado. Por exemplo, crie um arquivo chamado `worker.conf`**` com o seguinte conteúdo:
 
 ```
 [program:up-worker]
@@ -126,7 +124,7 @@ stderr_logfile=/application/worker.err.log
 stdout_logfile=/application/worker.out.log
 ```
 
-Em seguida, fala o mapeamento do worker no docker-compose.yml:
+Em seguida, faça o mapeamento do worker no `docker-compose.yml`:
 
 ```
 version: "3.1"
@@ -141,4 +139,8 @@ services:
       - "8080:80"
 ```
 
-Reinicie o container para que o arquivo `/application/script.php` seja invocado pelo Supervisor.
+Reinicie o Supervisor para que o arquivo `/application/script.php` seja invocado:
+
+```
+docker exec -it meu-conteiner service supervisor restart 
+```

@@ -6,7 +6,7 @@
 # A extensão php-json agora está incluída no PHP, não havendo necessidade de instalá-la
 # https://php.watch/versions/8.0/ext-json
 
-FROM ubuntu:groovy
+FROM ubuntu:focal
 
 # Corrige alguns problemas estranhos do terminal, 
 # como problemas como 'clear' ou CTRL+L
@@ -21,23 +21,22 @@ ENV RUNNING_DOCKER=1
 # Diretório principal da imagem
 WORKDIR /application
 
-# Configuração dos repositórios do Ondrej para Ubuntu 
-RUN apt-get update;
-
-RUN apt-get install -y --no-install-recommends gnupg \
-    && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu groovy main" > /etc/apt/sources.list.d/ondrej-php.list \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C;
-
+# Ferramentas básicas
 RUN apt-get update
-
-# Dependências e ferramentas de sistema
 RUN apt-get -y --no-install-recommends install \
+    software-properties-common \
     ca-certificates \
     build-essential \
+    gnupg \
     unzip \
     curl \
     vim \
-    git
+    git \
+    wget
+
+# Configuração dos repositórios do Ondrej para Ubuntu 
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y \
+    && apt-get update
 
 # PHP e extensões padrões
 RUN apt-get -y --no-install-recommends install \
@@ -89,35 +88,17 @@ RUN apt-get -y --no-install-recommends install \
     php8.0-yaml \
     php8.0-zmq
 
-# Kafka + Zookeeper
+# Supervisor
+RUN apt-get -y install supervisor
+ADD up-worker.conf /etc/supervisor/conf.d/up-worker.conf
+ADD up-worker.php /opt/up-worker.php
+RUN chmod a+x /opt/up-worker.php
+
+# Suporte ao Kafka + Zookeeper
 RUN apt-get -y install php8.0-dev \
     librdkafka++1 \
     librdkafka-dev \
     librdkafka1;
-
-# RUN apt-get -y install php-pear;
-
-# # Zookeeper
-# RUN git clone https://github.com/andreiz/php-zookeeper.git
-# RUN cd php-zookeeper; \
-#     phpize; \
-#     ./configure; \
-#     make; \
-#     make install; \
-#     cd ../; \
-#     rm -Rf php-zookeeper
-
-# # https://pecl.php.net/package/zookeeper
-# RUN curl -fsSL https://pecl.php.net/get/zookeeper-0.7.2.tgz | tar zxvf -
-# RUN cd zookeeper-0.7.2; \
-#     phpize; \
-#     ./configure --with-php-config=/usr/local/php/bin/php-config  --with-libzookeeper-dir=/usr/local/zookeeper; \
-#     make; \
-#     make install; \
-#     cd ../; \
-#     rm -Rf zookeeper-0.7.2
-
-# Kafka
 RUN git clone https://github.com/arnaud-lb/php-rdkafka.git;
 RUN cd php-rdkafka; \
     phpize; \

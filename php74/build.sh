@@ -38,4 +38,4 @@ docker run -d -it --name="$CONTAINER" \
     -p $DEV_PORT:80 \
     local/docker-project:$CONTAINER
 
-docker exec -it $CONTAINER bash
+# docker exec -it $CONTAINER bash

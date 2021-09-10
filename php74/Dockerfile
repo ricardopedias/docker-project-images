@@ -19,20 +19,23 @@ WORKDIR /application
 
 RUN apt-get update
 
-# Configuração dos repositórios do Ondrej para Ubuntu 
-RUN apt-get install -y --no-install-recommends gnupg \
-    && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" > /etc/apt/sources.list.d/ondrej-php.list \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
-
-RUN apt-get update
-
-# Dependências e ferramentas de sistema
+# Ferramentas básicas
 RUN apt-get -y --no-install-recommends install \
+    software-properties-common \
     ca-certificates \
     build-essential \
+    gnupg \
     unzip \
     curl \
-    vim
+    vim \
+    git \
+    wget
+
+# Configuração dos repositórios do Ondrej para Ubuntu 
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y \
+    && apt-get update
+
+RUN apt-get update
 
 # PHP e extensões padrões
 RUN apt-get -y --no-install-recommends install \
@@ -83,6 +86,13 @@ RUN apt-get -y --no-install-recommends install \
     php7.4-xdebug \
     php7.4-yaml \
     php7.4-zmq
+
+# Supervisor
+RUN apt-get -y install supervisor
+ADD up-worker.conf /etc/supervisor/conf.d/up-worker.conf
+ADD up-worker.php /opt/up-worker.php
+RUN chmod a+x /opt/up-worker.php
+RUN service supervisor restart
 
 # Nginx
 RUN apt-get -y --no-install-recommends install nginx;

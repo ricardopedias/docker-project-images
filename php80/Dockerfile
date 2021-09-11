@@ -15,31 +15,39 @@ ENV TERM=linux
 # Para o apt não fazer perguntas ao instalar pacotes
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Para identificar o uso do docker dentro da aplicação PHP
+# Para identificar a execução via docker dentro da aplicação
 ENV RUNNING_DOCKER=1
+
+# Configurações
+ENV DOC_ROOT='/application/public'
+ENV WORKER_PATH='/opt/'
+ENV WORKER_FILE='worker.php'
 
 # Diretório principal da imagem
 WORKDIR /application
 
-# Ferramentas básicas
 RUN apt-get update
 RUN apt-get -y --no-install-recommends install \
+    build-essential \
     software-properties-common \
     ca-certificates \
-    build-essential \
     gnupg \
-    unzip \
+    gettext-base \
     curl \
+    wget \
+    unzip
+
+# Configuração do repositório do Node
+# https://github.com/nodesource/distributions#debinstall
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+
+# Configuração do repositório Ondrej para Ubuntu 
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
+
+# Ferramentas básicas + PHP + extensões 
+RUN apt-get -y --no-install-recommends install \
     vim \
     git \
-    wget
-
-# Configuração dos repositórios do Ondrej para Ubuntu 
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y \
-    && apt-get update
-
-# PHP e extensões padrões
-RUN apt-get -y --no-install-recommends install \
     php8.0-cli \
     php8.0-fpm \
     php8.0-amqp \
@@ -86,19 +94,16 @@ RUN apt-get -y --no-install-recommends install \
     php8.0-zip \
     php8.0-xdebug \
     php8.0-yaml \
-    php8.0-zmq
-
-# Supervisor
-RUN apt-get -y install supervisor
-ADD up-worker.conf /etc/supervisor/conf.d/up-worker.conf
-ADD up-worker.php /opt/up-worker.php
-RUN chmod a+x /opt/up-worker.php
-
-# Suporte ao Kafka + Zookeeper
-RUN apt-get -y install php8.0-dev \
+    php8.0-zmq \
+    php8.0-dev \
+    supervisor \
+    nginx \
+    nodejs \
     librdkafka++1 \
     librdkafka-dev \
-    librdkafka1;
+    librdkafka1
+
+# Suporte ao Kafka + Zookeeper
 RUN git clone https://github.com/arnaud-lb/php-rdkafka.git;
 RUN cd php-rdkafka; \
     phpize; \
@@ -107,32 +112,37 @@ RUN cd php-rdkafka; \
     make install \
     cd ../; \
     rm -Rf php-rdkafka
+ADD rdkafka.ini /etc/php/8.0/cli/conf.d/20-rdkafka.ini
+ADD rdkafka.ini /etc/php/8.0/fpm/conf.d/20-rdkafka.ini
 
-# Nginx
-RUN apt-get -y --no-install-recommends install nginx;
+# Configuração do PHP
+ADD php-fpm-overrides.conf /etc/php/8.0/fpm/pool.d/z-overrides.conf
+ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
 
-# Composer
+# Instalação do Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 RUN composer clear-cache
 
-# Node
-# https://github.com/nodesource/distributions#debinstall
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends nodejs
-
-# Deployer
+# Instalação do Deployer
 # https://deployer.org/download/
 RUN curl -LO https://deployer.org/deployer.phar
 RUN mv deployer.phar /usr/local/bin/dep
 RUN chmod +x /usr/local/bin/dep
+
+# Configuração do Supervisor
+ADD worker.conf /etc/supervisor/conf.d/up-worker.conf.template
+ADD worker.php /opt/worker.php.template
+
+# Configuração do Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf.template
 
 # Limpeza de caches
 RUN apt-get -y remove php-pear php8.0-dev librdkafka-dev
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
 
-#RUN echo "zend_extension=/usr/lib/php/20200930/xdebug.so" > /etc/php/8.0/mods-available/xdebug.ini
+# Configuração do Xdebug
+# RUN echo "zend_extension=/usr/lib/php/20200930/xdebug.so" > /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.remote_enable=on" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.remote_handler=dbgp" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.remote_port=9000" >> /etc/php/8.0/mods-available/xdebug.ini
@@ -140,15 +150,6 @@ RUN echo "xdebug.remote_autostart=on" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.remote_connect_back=0" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.idekey=docker" >> /etc/php/8.0/mods-available/xdebug.ini
 RUN echo "xdebug.mode=coverage" >> /etc/php/8.0/mods-available/xdebug.ini
-
-ADD overrides.conf /etc/php/8.0/fpm/pool.d/z-overrides.conf
-ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
-# ADD rdkafka.ini /etc/php/8.0/cli/conf.d/20-zookeeper.ini
-ADD rdkafka.ini /etc/php/8.0/cli/conf.d/20-rdkafka.ini
-# ADD rdkafka.ini /etc/php/8.0/fpm/conf.d/20-zookeeper.ini
-ADD rdkafka.ini /etc/php/8.0/fpm/conf.d/20-rdkafka.ini
-ADD php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
-COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 ADD boot.sh /boot.sh
 RUN chmod 755 /boot.sh

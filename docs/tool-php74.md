@@ -147,7 +147,7 @@ services:
     container_name: php-fullpower
     volumes:
       - .:/application
-      - ./worker.conf:/opt/up-worker.php
+      - ./worker.conf:/etc/supervisor/conf.d/up-worker.conf
     ports:
       - "8080:80"
 ```

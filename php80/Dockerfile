@@ -56,6 +56,7 @@ RUN apt-get -y --no-install-recommends install \
     php8.0-calendar \
     php8.0-curl \
     php8.0-dba \
+    php8.0-dev \
     php8.0-ds \
     php8.0-enchant \
     php8.0-exif \ 
@@ -88,6 +89,7 @@ RUN apt-get -y --no-install-recommends install \
     php8.0-ssh2 \
     php8.0-sybase \
     php8.0-tidy \
+    php8.0-uuid \
     php8.0-xml \
     php8.0-xmlrpc \
     php8.0-xsl \
@@ -95,7 +97,6 @@ RUN apt-get -y --no-install-recommends install \
     php8.0-xdebug \
     php8.0-yaml \
     php8.0-zmq \
-    php8.0-dev \
     supervisor \
     nginx \
     nodejs \

@@ -79,6 +79,7 @@ RUN apt-get -y --no-install-recommends install \
     php7.4-ssh2 \
     php7.4-sybase \
     php7.4-tidy \
+    php7.4-uuid \
     php7.4-xml \
     php7.4-xmlrpc \
     php7.4-xsl \

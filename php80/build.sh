@@ -16,6 +16,9 @@ echo ""
 # apaga o container
 docker container rm $DOCKER_HUB_TAG --force
 
+# Remove a imagem local
+# docker rmi $(docker images $DOCKER_HUB_USER/docker-project:$DOCKER_HUB_TAG -a -q) --force
+
 # gera a nova imagem
 docker build . -t $DOCKER_HUB_USER/docker-project:$DOCKER_HUB_TAG -f Dockerfile
 
@@ -61,9 +64,8 @@ docker network create --driver bridge $LOCAL_NETWORK
 
 # Recria o conteiner
 docker container rm $LOCAL_CONTAINER --force
+
 docker run -d -it --name="$LOCAL_CONTAINER" \
-    --env WORKER_PATH=/application/public \
-    --env WORKER_FILE=worker.php \
     --network $LOCAL_NETWORK \
     --volume "$LOCAL_PROJECT:/application" \
     -p $LOCAL_PORT:80 \

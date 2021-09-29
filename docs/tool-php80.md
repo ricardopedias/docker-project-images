@@ -123,29 +123,7 @@ A forma mais fácil é criando um arquivo chamado **worker.php** na raiz do proj
 
 A presença deste arquivo irá ser detectada automaticamente e o Supervisor irá executá-lo por tempo indeterminado.
 
-### 2. Configurar um arquivo diferente
-
-Para especificar um arquivo ou localização diferente para o worker, pode-se usar as variáveis de ambiente no `docker-compose.yml`:
-
-```
-version: "3.1"
-services:
-  php:
-    image: ricardopedias/docker-project:php80
-    container_name: php-fullpower
-    environment:
-      - WORKER_PATH=/qualquer/lugar
-      - WORKER_FILE=meu-worker.php
-    volumes:
-      - .:/application
-      - ./worker.conf:/opt/up-worker.php
-    ports:
-      - "8080:80"
-```
-
-> **Importante**: as variáveis WORKER_PATH e WORKER_FILE não podem terminar com a "/"
-
-### 3. Mapear um novo worker
+### 2. Mapear um novo worker
 
 Se o método anterior não for suficiente, pode-se mapear um worker pesonalizado. Por exemplo, crie um arquivo chamado `worker.conf`**` com o seguinte conteúdo:
 
@@ -158,6 +136,10 @@ redirect_stderr=true
 stderr_logfile=/qualquer/lugar/worker.err.log
 stdout_logfile=/qualquer/lugar/worker.out.log
 ```
+
+> **Importante**: O caminho para o worker deve ser absoluto em relação ao conteiner. 
+Ou seja, se o projeto php está em **/application**, e contém um diretório chamado **resources**, 
+deve-se levar em conta ambos os diretórios (ex: /application/resorces/meu-worker.php).
 
 Em seguida, faça o mapeamento do worker no `docker-compose.yml`:
 
@@ -177,5 +159,7 @@ services:
 Reinicie o Supervisor para que o arquivo `/qualquer/lugar/meu-worker.php` seja invocado:
 
 ```
-docker exec -it meu-conteiner service supervisor restart 
+docker exec -it meu-conteiner service supervisor restart
+docker exec -it meu-conteiner service supervisor stop
+docker exec -it meu-conteiner service supervisor start
 ```

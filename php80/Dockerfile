@@ -18,11 +18,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Para identificar a execução via docker dentro da aplicação
 ENV RUNNING_DOCKER=1
 
-# Configurações
-ENV DOC_ROOT='/application/public'
-ENV WORKER_PATH='/opt/'
-ENV WORKER_FILE='worker.php'
-
 # Diretório principal da imagem
 WORKDIR /application
 
@@ -131,14 +126,15 @@ RUN mv deployer.phar /usr/local/bin/dep
 RUN chmod +x /usr/local/bin/dep
 
 # Configuração do Supervisor
-ADD worker.conf /etc/supervisor/conf.d/up-worker.conf.template
-ADD worker.php /opt/worker.php.template
+ADD worker.conf /etc/supervisor/conf.d/up-worker.conf
+ADD worker.php /opt/worker.php
+RUN chmod a+x /opt/worker.php
 
 # Configuração do Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf.template
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Limpeza de caches
-RUN apt-get -y remove php-pear php8.0-dev librdkafka-dev
+RUN apt-get -y remove php8.0-dev librdkafka-dev
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
 

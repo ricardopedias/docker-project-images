@@ -17,28 +17,29 @@ ENV RUNNING_DOCKER=1
 # Diretório principal da imagem
 WORKDIR /application
 
-RUN apt-get update
-
 # Ferramentas básicas
+RUN apt-get update
 RUN apt-get -y --no-install-recommends install \
+    build-essential \
     software-properties-common \
     ca-certificates \
-    build-essential \
     gnupg \
-    unzip \
+    gettext-base \
     curl \
+    wget \
+    unzip
+
+# Configuração do repositório do Node
+# https://github.com/nodesource/distributions#debinstall
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+
+# Configuração do repositório Ondrej para Ubuntu 
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
+
+# Ferramentas básicas + PHP + extensões 
+RUN apt-get -y --no-install-recommends install \
     vim \
     git \
-    wget
-
-# Configuração dos repositórios do Ondrej para Ubuntu 
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y \
-    && apt-get update
-
-RUN apt-get update
-
-# PHP e extensões padrões
-RUN apt-get -y --no-install-recommends install \
     php7.4-cli \
     php7.4-fpm \
     php7.4-amqp \
@@ -47,6 +48,7 @@ RUN apt-get -y --no-install-recommends install \
     php7.4-calendar \
     php7.4-curl \
     php7.4-dba \
+    php7.4-dev \
     php7.4-ds \
     php7.4-enchant \
     php7.4-exif \ 
@@ -86,26 +88,33 @@ RUN apt-get -y --no-install-recommends install \
     php7.4-zip \
     php7.4-xdebug \
     php7.4-yaml \
-    php7.4-zmq
+    php7.4-zmq \
+    supervisor \
+    nginx \
+    nodejs \
+    librdkafka++1 \
+    librdkafka-dev \
+    librdkafka1
 
-# Supervisor
-RUN apt-get -y install supervisor
-ADD up-worker.conf /etc/supervisor/conf.d/up-worker.conf
-ADD up-worker.php /opt/up-worker.php
-RUN chmod a+x /opt/up-worker.php
+# Suporte ao Kafka + Zookeeper
+RUN git clone https://github.com/arnaud-lb/php-rdkafka.git;
+RUN cd php-rdkafka; \
+    phpize; \
+    ./configure; \
+    make all -j 5; \
+    make install \
+    cd ../; \
+    rm -Rf php-rdkafka
+ADD rdkafka.ini /etc/php/7.4/cli/conf.d/20-rdkafka.ini
+ADD rdkafka.ini /etc/php/7.4/fpm/conf.d/20-rdkafka.ini
 
-# Nginx
-RUN apt-get -y --no-install-recommends install nginx;
+# Configuração do PHP
+ADD php-fpm-overrides.conf /etc/php/7.4/fpm/pool.d/z-overrides.conf
+ADD php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini
 
-# Composer
+# Instalação do Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 RUN composer clear-cache
-
-# Node
-# https://github.com/nodesource/distributions#debinstall
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get update
-RUN apt-get -y --no-install-recommends install nodejs
 
 # Deployer
 # https://deployer.org/download/
@@ -113,7 +122,16 @@ RUN curl -LO https://deployer.org/deployer.phar
 RUN mv deployer.phar /usr/local/bin/dep
 RUN chmod +x /usr/local/bin/dep
 
+# Configuração do Supervisor
+ADD worker.conf /etc/supervisor/conf.d/up-worker.conf
+ADD worker.php /opt/worker.php
+RUN chmod a+x /opt/worker.php
+
+# Configuração do Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Limpeza de caches
+RUN apt-get -y remove php7.4-dev librdkafka-dev
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
 
@@ -124,10 +142,6 @@ RUN echo "xdebug.remote_autostart=on" >> /etc/php/7.4/mods-available/xdebug.ini
 RUN echo "xdebug.remote_connect_back=0" >> /etc/php/7.4/mods-available/xdebug.ini
 RUN echo "xdebug.idekey=docker" >> /etc/php/7.4/mods-available/xdebug.ini
 RUN echo "xdebug.mode=coverage" >> /etc/php/7.4/mods-available/xdebug.ini
-
-ADD overrides.conf /etc/php/7.4/fpm/pool.d/z-overrides.conf
-ADD php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini
-COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 ADD boot.sh /boot.sh
 RUN chmod 755 /boot.sh

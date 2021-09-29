@@ -19,7 +19,7 @@ services:
     volumes:
       - .:/application
     ports:
-      - "8080:80"
+      - "8074:80"
 ```
 
 ## Extensões
@@ -112,10 +112,10 @@ O Supervisor também está instalado na imagem. Ele é muito útil, principalmen
 Para iniciar o Supervisor, basta executar o seguinte comando:
 
 ```
-docker exec -it meu-conteiner service supervisor start 
+docker exec -it meu-conteiner service supervisor start
 ```
 
-Para configurar um worker, existem duas formas:
+Para configurar um worker, existem três formas:
 
 ### 1. Criar um worker.php
 
@@ -129,13 +129,17 @@ Se o método anterior não for suficiente, pode-se mapear um worker pesonalizado
 
 ```
 [program:up-worker]
-command=php /application/script.php
+command=php /qualquer/lugar/meu-worker.php
 autostart=true
 autorestart=true
 redirect_stderr=true
-stderr_logfile=/application/worker.err.log
-stdout_logfile=/application/worker.out.log
+stderr_logfile=/qualquer/lugar/worker.err.log
+stdout_logfile=/qualquer/lugar/worker.out.log
 ```
+
+> **Importante**: O caminho para o worker deve ser absoluto em relação ao conteiner. 
+Ou seja, se o projeto php está em **/application**, e contém um diretório chamado **resources**, 
+deve-se levar em conta ambos os diretórios (ex: /application/resorces/meu-worker.php).
 
 Em seguida, faça o mapeamento do worker no `docker-compose.yml`:
 
@@ -152,8 +156,10 @@ services:
       - "8080:80"
 ```
 
-Reinicie o Supervisor para que o arquivo `/application/script.php` seja invocado:
+Reinicie o Supervisor para que o arquivo `/qualquer/lugar/meu-worker.php` seja invocado:
 
 ```
-docker exec -it meu-conteiner service supervisor restart 
+docker exec -it meu-conteiner service supervisor restart
+docker exec -it meu-conteiner service supervisor stop
+docker exec -it meu-conteiner service supervisor start
 ```

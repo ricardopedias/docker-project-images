@@ -22,6 +22,8 @@ Use por sua conta e risco!
 - PHP 5.6
 - [PHP 7.4](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php74.md)
 - [PHP 8.0](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php80.md)
+- [PHP 8.1](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php81.md)
+- [PHP 8.2](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php82.md)
 - [Ruby 3.0](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-ruby.md)
 
 ## Bancos de Dados SQL

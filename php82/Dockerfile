@@ -106,7 +106,7 @@ RUN cd php-rdkafka; \
     phpize; \
     ./configure; \
     make all -j 5; \
-    make install \
+    make install; \
     cd ../; \
     rm -Rf php-rdkafka
 ADD rdkafka.ini /etc/php/8.2/cli/conf.d/20-rdkafka.ini
@@ -134,13 +134,29 @@ RUN chmod a+x /opt/worker.php
 # Configuração do Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Compila o Xdebug 3.2 enquanto não há um pacote ubuntu
+RUN curl -LO https://xdebug.org/files/xdebug-3.2.0.tgz
+RUN tar -xzf xdebug-3.2.0.tgz
+RUN cd xdebug-3.2.0; \
+    phpize; \
+    ./configure --enable-xdebug; \
+    make; \
+    make install; \
+    cd ../; \
+    rm -Rf xdebug-3.2.0
+
 # Limpeza de caches
 RUN apt-get -y remove php8.2-dev librdkafka-dev
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
 
 # Configuração do Xdebug
-# RUN echo "zend_extension=/usr/lib/php/20200930/xdebug.so" > /etc/php/8.2/mods-available/xdebug.ini
+# versão atual = /usr/lib/php/20220829/
+#RUN echo "zend_extension=/usr/lib/php/20220829/xdebug.so" > /etc/php/8.2/mods-available/xdebug.ini
+
+RUN echo "zend_extension=xdebug" >> /etc/php/8.2/fpm/php.ini
+RUN echo "zend_extension=xdebug" >> /etc/php/8.2/cli/php.ini
+
 RUN echo "xdebug.remote_enable=on" >> /etc/php/8.2/mods-available/xdebug.ini
 RUN echo "xdebug.remote_handler=dbgp" >> /etc/php/8.2/mods-available/xdebug.ini
 RUN echo "xdebug.remote_port=9000" >> /etc/php/8.2/mods-available/xdebug.ini

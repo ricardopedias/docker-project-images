@@ -165,6 +165,8 @@ RUN echo "xdebug.remote_connect_back=0" >> /etc/php/8.2/mods-available/xdebug.in
 RUN echo "xdebug.idekey=docker" >> /etc/php/8.2/mods-available/xdebug.ini
 RUN echo "xdebug.mode=coverage" >> /etc/php/8.2/mods-available/xdebug.ini
 
+RUN cd /etc/php/8.2/cli/conf.d; ln -s ../../mods-available/xdebug.ini
+
 ADD boot.sh /boot.sh
 RUN chmod 755 /boot.sh
 

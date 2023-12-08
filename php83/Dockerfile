@@ -40,6 +40,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
 
 # Ferramentas básicas + PHP + extensões 
+# Data Structures ainda é incompatível - php-ds
 RUN apt-get -y --no-install-recommends install \
     vim \
     git \
@@ -53,7 +54,6 @@ RUN apt-get -y --no-install-recommends install \
     php8.3-curl \
     php8.3-dba \
     php8.3-dev \
-    php-ds \
     php8.3-enchant \
     php8.3-exif \ 
     php-gearman \

@@ -1,10 +1,10 @@
 # Portas configuradas no Docker Compose
 
-Os exemplos do Docker Compose (docker-compose.yml) existentes na documentação seguem um 
+Os exemplos do Docker Compose (compose.yaml) existentes na documentação seguem um 
 esquema, de forma que nas portas são mapeadas para nenhuma ferramenta entre em conflito,
 tornando possível a ativação de todas juntas (desde que seja apenas uma versão de cada ferramenta).
 
-Embora você possa configurar o docker-compose.yml do seu gosto, mapeando para portas diferentes,
+Embora você possa configurar o compose.yaml do seu gosto, mapeando para portas diferentes,
 preferiu-se usar um esquema para facilitar a vida daqueles que desejam começar a usar rapidamente.
 
 As portas originais foram mapeadas da seguinte forma:

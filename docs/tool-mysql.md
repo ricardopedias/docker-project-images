@@ -16,7 +16,6 @@ As seguintes versões do MySQL estão presentes:
 Um exemplo de configuração via Docker Compose:
 
 ```
-version: "3.1"
 services:
   mysql:
     image: ricardopedias/docker-project:mysql80

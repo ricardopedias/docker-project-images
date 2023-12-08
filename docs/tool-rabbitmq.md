@@ -73,7 +73,7 @@ networks:
 
 ## Acesso aos recursos
 
-As portas originais foram mapeadas através do docker-compose.yml, como seguem demonstradas na tabela:
+As portas originais foram mapeadas através do compose.yaml, como seguem demonstradas na tabela:
 
 | Descrição       | Porta Original | Porta Mapeada | URI                         |
 | --------------- | -------------- | ------------- | --------------------------- |

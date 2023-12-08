@@ -4,7 +4,7 @@
 # Imagem oficial (Git Hub): https://github.com/docker-library/mysql
 #-------------------------------------------------------------------------------------
 
-FROM mysql:8.0
+FROM mysql:8.0-debian
 
 # Corrige alguns problemas estranhos do terminal, 
 # como problemas como 'clear' ou CTRL+L

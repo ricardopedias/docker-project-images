@@ -11,7 +11,6 @@ O diretório principal da imagem é localizado em `/application`.
 Abaixo, um exemplo de configuração mínima:
 
 ```
-version: "3.1"
 services:
   php:
     image: ricardopedias/docker-project:php81
@@ -90,10 +89,9 @@ server {
 
 A linha `root   /application/public;` define o diretório de apontamento do Nginx. Personalize-o como quiser, mantendo o prefixo `/application`.
 
-Em seguida, adicione o arquivo `nginx.conf` no mapeamento de volumes do `docker-compose.yml`:
+Em seguida, adicione o arquivo `nginx.conf` no mapeamento de volumes do `compose.yaml`:
 
 ```
-version: "3.1"
 services:
   php:
     image: ricardopedias/docker-project:php81
@@ -141,10 +139,9 @@ stdout_logfile=/qualquer/lugar/worker.out.log
 Ou seja, se o projeto php está em **/application**, e contém um diretório chamado **resources**, 
 deve-se levar em conta ambos os diretórios (ex: /application/resorces/meu-worker.php).
 
-Em seguida, faça o mapeamento do worker no `docker-compose.yml`:
+Em seguida, faça o mapeamento do worker no `compose.yaml`:
 
 ```
-version: "3.1"
 services:
   php:
     image: ricardopedias/docker-project:php81

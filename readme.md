@@ -2,7 +2,7 @@
 
 Tratam-se de imagens contendo instalações pré-configuradas e exclusivas para desenvolvimento de 
 aplicações.  A idéia é facilitar a configuração de ambientes, usando apenas um arquivo 
-*docker-compose.yml* e nada mais.
+*compose.yaml* e nada mais.
 
 [GitHUB](https://github.com/ricardopedias/docker-project-images)
 [DockerHUB](https://hub.docker.com/r/ricardopedias/docker-project)
@@ -24,6 +24,7 @@ Use por sua conta e risco!
 - [PHP 8.0](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php80.md)
 - [PHP 8.1](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php81.md)
 - [PHP 8.2](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php82.md)
+- [PHP 8.3](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-php83.md)
 - [Ruby 3.0](https://github.com/ricardopedias/docker-project-images/blob/master/docs/tool-ruby.md)
 
 ## Bancos de Dados SQL

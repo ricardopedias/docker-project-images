@@ -34,7 +34,7 @@ RUN apt-get -y --no-install-recommends install \
 
 # Configuração do repositório do Node
 # https://github.com/nodesource/distributions#debinstall
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 
 # Configuração do repositório Ondrej para Ubuntu 
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
@@ -119,6 +119,9 @@ ADD php-ini-overrides.ini /etc/php/8.1/fpm/conf.d/99-overrides.ini
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 RUN composer clear-cache
 
+# Atualização do Npm que acompanha o Nodejs
+RUN npm install -g npm@10.2.5
+
 # Instalação do Deployer
 # https://deployer.org/download/
 RUN curl -LO https://deployer.org/deployer.phar
@@ -150,6 +153,9 @@ RUN echo "xdebug.mode=coverage" >> /etc/php/8.1/mods-available/xdebug.ini
 
 ADD boot.sh /boot.sh
 RUN chmod 755 /boot.sh
+
+RUN mkdir /.npm
+RUN chmod 777 -Rf /.npm
 
 STOPSIGNAL SIGQUIT
 

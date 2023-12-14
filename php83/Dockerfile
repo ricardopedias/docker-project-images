@@ -66,6 +66,7 @@ RUN apt-get -y --no-install-recommends install \
     php8.3-interbase \
     php8.3-intl \
     php8.3-ldap \
+    php8.3-mbstring \
     php-memcached \
     php8.3-mbstring \
     php-mongodb \

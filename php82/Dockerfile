@@ -66,6 +66,7 @@ RUN apt-get -y --no-install-recommends install \
     php8.2-interbase \
     php8.2-intl \
     php8.2-ldap \
+    php8.2-mbstring \
     php8.2-memcached \
     php8.2-mongodb \
     php8.2-msgpack \

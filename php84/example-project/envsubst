@@ -1,0 +1,38 @@
+#
+# Configuração personalizada do Docker Project Images
+#
+
+server {
+    listen       80;
+    server_name  localhost;
+    client_max_body_size 108M;
+    access_log  /var/log/nginx/host.access.log;
+
+    root $DOC_ROOT
+    # root   /application/public;
+    index  index.php index.html index.htm;
+
+    if (!-e $request_filename) {
+        rewrite ^.*$ /index.php last;
+    }
+
+    error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass localhost:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_read_timeout 3600;
+        fastcgi_param PHP_VALUE "error_log=/var/log/nginx/application_php_errors.log";
+        fastcgi_buffers 16 16k;
+        fastcgi_buffer_size 32k;
+        include fastcgi_params;
+    }
+}
